@@ -346,7 +346,7 @@ namespace ZMM.App.Controllers
             }
             else
             {
-                return NotFound();
+                return new EmptyResult();
             }
         }
         #endregion

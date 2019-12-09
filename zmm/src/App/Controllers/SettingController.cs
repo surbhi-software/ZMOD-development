@@ -68,7 +68,7 @@ namespace ZMM.App.Controllers
                 return Json(JObject.Parse(jsonBody));
             }
             else
-                return NotFound();
+                return new EmptyResult();
         }
         #endregion
 

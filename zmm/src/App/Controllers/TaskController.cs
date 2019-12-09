@@ -161,7 +161,7 @@ namespace ZMM.App.Controllers
                 return Json(jo);
             }
             else
-                return NotFound();
+                return new EmptyResult();
 
         }
 

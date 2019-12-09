@@ -46,7 +46,7 @@ namespace ZMM.App.Controllers
             if (!String.IsNullOrEmpty(value))
                 return Json(value);
             else
-               return NotFound();
+               return new EmptyResult();
         }
 
         // PUT api/values/5
