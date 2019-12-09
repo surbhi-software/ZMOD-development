@@ -1323,7 +1323,7 @@ namespace ZMM.App.Controllers
             }
             else
             {
-                return EmptyResult();
+                return new EmptyResult();
             }
         }
 
