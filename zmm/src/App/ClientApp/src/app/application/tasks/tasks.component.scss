@@ -1,0 +1,24 @@
+.mat-progress-bar {
+    height: 3px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    top: 111px;
+    z-index: 9;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+    background: gainsboro;
+}
+
+tr.detail-row {
+    height: 0;
+}
+
+.element-row td {
+    border-bottom-width: 0;
+}
+.details-history {
+    padding-right: 300px;
+}

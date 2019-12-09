@@ -1,0 +1,196 @@
+<mat-sidenav-container class="page-container">
+  <mat-sidenav #sidenav mode="side" opened class="content-sidenav" [fixedInViewport]="false" [fixedTopGap]="0"
+    [fixedBottomGap]="0">
+    <mat-toolbar>
+      <div class="toolbar-mid">
+        <div class="filter">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <span class="mdi mdi-magnify"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="filter" placeholder="Filter">
+          </div>
+        </div>
+      </div>
+      <div class="content-toolbar">
+        <button mat-icon-button matTooltip="Refresh" (click)="refresh()">
+          <span class="mdi mdi-refresh text-secondary"></span>
+        </button>
+        <button mat-icon-button matTooltip="Upload Code" (click)="uploadNewFiles()">
+          <span class="mdi mdi-cloud-upload  text-secondary"></span>
+        </button>
+      </div>
+    </mat-toolbar>
+    <app-loader [isLoading]="isLoading"></app-loader>
+    <cdk-virtual-scroll-viewport itemSize="75" class="details-list">
+      <ul class="list-group list-group-flush">
+        <li *cdkVirtualFor="let item of listOfCode | searchfilter:'name':filter"
+          [ngClass]="{'active': (item.id === selectedCode.id)}"
+          class="list-group-item list-group-item-action text-truncate" (click)="sidenav.open();selectCode(item)">
+          <div class="text-truncate">
+            <span class="mdi mr-2" [ngClass]="utilService.fileTypeIcon(item.type)"></span>
+            <span innerHtml="{{ item.name | highlight: filter }}"></span>
+          </div>
+          <div class="text-muted">
+            <small>Created: {{ item.created_on | date: 'dd MMM yy, hh:mm a'  }}</small>
+          </div>
+        </li>
+        <li *ngIf="!(listOfCode && listOfCode.length) && !isLoading"
+          class="list-group-item text-truncate text-center text-muted">
+          No code available
+        </li>
+      </ul>
+    </cdk-virtual-scroll-viewport>
+  </mat-sidenav>
+  <mat-sidenav-content class="content-main" [@.disabled]="true">
+    <app-loader [isLoading]="isContentLoading"></app-loader>
+    <mat-tab-group class="noTabsHeader" [(selectedIndex)]="tabSelectedIndex" [dynamicHeight]="true">
+
+      <mat-tab label="INFO">
+        <ng-template matTabContent>
+          <div *ngIf="selectedCode.id && tabSelectedIndex === 0">
+            <mat-toolbar>
+              <h2><span #name contenteditable="true"
+                  (blur)="updateName(name)">{{ selectedCode?.id }}</span>.{{ selectedCode?.extension }}</h2>
+              <div class="toolbar-mid"></div>
+              <div calss="content-toolbar">
+                <button *ngIf="selectedCode.extension == 'py'" mat-icon-button matTooltip="Execute" (click)="execute()">
+                  <span class="mdi mdi-play"></span>
+                </button>
+                <button mat-icon-button matTooltip="Edit" (click)="editCode()">
+                  <span class="mdi mdi-square-edit-outline text-secondary"></span>
+                </button>
+                <button mat-icon-button matTooltip="Download" (click)="downloadCode()">
+                  <span class="mdi mdi-download text-secondary"></span>
+                </button>
+                <app-confirmationbar [message]="message" (confirmDelete)="deleteCode()"></app-confirmationbar>
+                <button mat-icon-button
+                  (click)="sidenav.toggle(); toggleSidebar(sidenav.opened ? 'FULLSCREEN' : 'FULLSCREEN_EXIT')"
+                  [matTooltip]="sidenav.opened ? 'Fullscreen' : 'Fullscreen Exit'">
+                  <span class="mdi text-secondary"
+                    [ngClass]="{'mdi-fullscreen': sidenav.opened, 'mdi-fullscreen-exit': !sidenav.opened}"></span>
+                </button>
+              </div>
+            </mat-toolbar>
+            <div class="details">
+              <div class="container-fluid py-3">
+                <dl class="row">
+                  <ng-template ngFor let-prop [ngForOf]="selectedCode?.properties" let-i="index">
+                    <dt class="col-sm-3 text-truncate text-capitalize">{{ prop.key }}</dt>
+                    <dd class="col-sm-9">{{ prop.value }}</dd>
+                  </ng-template>
+                  <dt class="col-sm-3 text-truncate">File Size</dt>
+                  <dd class="col-sm-9">{{ selectedCode.size | fileSize }}</dd>
+                  <dt class="col-sm-3 text-truncate">Uploaded On</dt>
+                  <dd class="col-sm-9">{{ selectedCode.created_on  | date: 'dd MMM yy, hh:mm a'  }}</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+      </mat-tab>
+
+      <mat-tab label="PYTHON">
+        <ng-template matTabContent>
+          <div *ngIf="selectedCode.extension === 'py' && tabSelectedIndex === 1">
+            <mat-toolbar>
+              <h2><span #name contenteditable="true"
+                  (blur)="updateName(name)">{{ selectedCode?.id }}</span>.{{ selectedCode?.extension }}</h2>
+              <div class="toolbar-mid"></div>
+              <div calss="content-toolbar">
+                <button mat-icon-button matTooltip="Save Code" (click)="saveCode()">
+                  <span class="mdi mdi-content-save text-secondary"></span>
+                </button>
+                <button mat-icon-button matTooltip="Execute" (click)="execute()">
+                  <span class="mdi mdi-play"></span>
+                </button>
+                <button mat-icon-button matTooltip="Download" (click)="downloadCode()">
+                  <span class="mdi mdi-download text-secondary"></span>
+                </button>
+                <app-confirmationbar [message]="message" (confirmDelete)="deleteCode()"></app-confirmationbar>
+                <button mat-icon-button matTooltip="Close" (click)="close()">
+                  <span class="mdi mdi-close text-secondary"></span>
+                </button>
+                <button mat-icon-button
+                  (click)="sidenav.toggle(); toggleSidebar(sidenav.opened ? 'FULLSCREEN' : 'FULLSCREEN_EXIT')"
+                  [matTooltip]="sidenav.opened ? 'Fullscreen' : 'Fullscreen Exit'">
+                  <span class="mdi text-secondary"
+                    [ngClass]="{'mdi-fullscreen': sidenav.opened, 'mdi-fullscreen-exit': !sidenav.opened}"></span>
+                </button>
+              </div>
+            </mat-toolbar>
+            <div class="details">
+              <ngx-monaco-editor class="app-code-editor" [options]="editorOptions" [(ngModel)]="selectedCode.code">
+              </ngx-monaco-editor>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <mat-tab label="JUPYTER_NOTEBOOK">
+        <ng-template matTabContent>
+          <div *ngIf="selectedCode.extension === 'ipynb' && tabSelectedIndex === 2">
+            <mat-toolbar>
+              <h2><span #name contenteditable="true"
+                  (blur)="updateName(name)">{{ selectedCode?.id }}</span>.{{ selectedCode?.extension }}</h2>
+              <div class="toolbar-mid"></div>
+              <div class="content-toolbar">
+                <button mat-icon-button matTooltip="Download" (click)="downloadCode()">
+                  <span class="mdi mdi-download text-secondary"></span>
+                </button>
+                <app-confirmationbar [message]="message" (confirmDelete)="deleteCode()"></app-confirmationbar>
+                <button mat-icon-button matTooltip="Close" (click)="close()">
+                  <span class="mdi mdi-close text-secondary"></span>
+                </button>
+                <button mat-icon-button
+                  (click)="sidenav.toggle(); toggleSidebar(sidenav.opened ? 'FULLSCREEN' : 'FULLSCREEN_EXIT')"
+                  [matTooltip]="sidenav.opened ? 'Fullscreen' : 'Fullscreen Exit'">
+                  <span class="mdi text-secondary"
+                    [ngClass]="{'mdi-fullscreen': sidenav.opened, 'mdi-fullscreen-exit': !sidenav.opened}"></span>
+                </button>
+              </div>
+            </mat-toolbar>
+            <div class="details">
+              <iframe *ngIf="selectedCode.jupyterUrl" [src]="selectedCode.jupyterUrl" class="iframe"></iframe>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <mat-tab label="DROPZONE">
+        <ng-template matTabContent>
+          <div *ngIf="uploadFiles && tabSelectedIndex === 3">
+            <mat-toolbar>
+              <h2>Upload Files</h2>
+              <div class="toolbar-mid"></div>
+              <div calss="content-toolbar">
+                <button *ngIf="(listOfCode && listOfCode.length) && !isLoading" mat-icon-button matTooltip="Cancel"
+                  (click)="uploadFilesDone()">
+                  <span class="mdi mdi-close text-secondary"></span>
+                </button>
+                <button mat-icon-button
+                  (click)="sidenav.toggle(); toggleSidebar(sidenav.opened ? 'FULLSCREEN' : 'FULLSCREEN_EXIT')"
+                  [matTooltip]="sidenav.opened ? 'Fullscreen' : 'Fullscreen Exit'">
+                  <span class="mdi text-secondary"
+                    [ngClass]="{'mdi-fullscreen': sidenav.opened, 'mdi-fullscreen-exit': !sidenav.opened}"></span>
+                </button>
+              </div>
+            </mat-toolbar>
+            <div class="details">
+              <div class="container-fluid">
+                <app-dropzone [openFileBrowserWindow]="dropzoneConfig.openFileBrowser" [dropzoneConfig]="dropzoneConfig"
+                  (dropzoneSuccess)="onCodeUploadSuccess($event)"></app-dropzone>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<app-excute-form *ngIf="showExcuteFormPanel" [option]="''" (close)="showExcuteFormPanel=false;"
+  (selected)="execute($event)"></app-excute-form>

@@ -1,0 +1,33 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "ZMSUI";
+}
+
+<div class="row">    
+    <div class="col-md-12">
+        @if (!User.Identity.IsAuthenticated)
+        {
+            /*
+                @using (Ajax.BeginForm("Login", "Account",
+                    new AjaxOptions
+                    {
+                        OnSuccess = "OnSuccess",
+                        OnFailure = "OnFailure",
+                        LoadingElementId = "progress"
+                    }))
+            {}*/
+            <a id="login-endpoint" asp-action="Login" asp-controller="Account" class="btn btn-default"></a>
+           <script>
+               document.getElementById("login-endpoint").click();
+           </script>
+        }
+        else
+        {
+            <script>
+                window.location.href = "/data";
+            </script>                      
+        }
+        <br/>       
+    </div>
+</div>

@@ -1,0 +1,183 @@
+<app-loader [isLoading]="isContentLoading" [message]=""></app-loader>
+<div class="container-fluid py-3 mb-1 mat-elevation-z2" hidden>
+  <form #loginForm="ngForm" class="row" (ngSubmit)="login(loginForm)">
+    <mat-form-field class="col-sm-2">
+      <input matInput placeholder="Tenant ID" name="tenant" [(ngModel)]="tenant" required value="anil">
+      <mat-error>required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-sm-4">
+      <input matInput placeholder="Username" name="username" [(ngModel)]="username" required value="AnilKumar.Vuppala@softwareag.com">
+      <mat-error>required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-sm-4">
+      <input matInput placeholder="Password" [type]="!hide ? 'password' : 'text'" name="password" [(ngModel)]="password"
+        required value="Zementis123">
+      <mat-error>required</mat-error>
+      <mat-icon hidden matSuffix (click)="hide = !hide">{{!hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+    </mat-form-field>
+    <div class="col-sm-2">
+      <button mat-stroked-button color="primary" type="submit">Login</button>
+    </div>
+  </form>
+</div>
+<mat-button-toggle-group #group="matButtonToggleGroup" appearance='legacy' color='primary' *ngIf="listDevice || listFile"
+  value="listDevices">
+  <mat-button-toggle value="listDevices" (click)="listDevices()">Devices</mat-button-toggle>
+  <mat-button-toggle value="listFiles" (click)="listFiles()">Files</mat-button-toggle>
+</mat-button-toggle-group>
+<table mat-table [dataSource]="dataSourceDevices" *ngIf="listDevice" class="mat-elevation-z2 w-100">
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'mat-cell-selected': element.id === selectedDevice.id}">
+      {{element.id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Device Name </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'mat-cell-selected': element.id === selectedDevice.id}">
+      {{element.name }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="model">
+    <th mat-header-cell *matHeaderCellDef> Model </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'mat-cell-selected': element.id === selectedDevice.id}">
+      {{element.c8y_Hardware.model }} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'mat-cell-selected': element.id === selectedDevice.id}">
+      {{element.c8y_Connection.status }} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef> Save </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="selectDevice(element)" [matTooltip]="'Save Data'">
+        <span class="mdi text-secondary mdi-content-save"></span>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<table mat-table [dataSource]="dataSourceFiles" *ngIf="listFile" class="mat-elevation-z2 w-100">
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'mat-cell-selected': element.id === selectedDevice.id}">
+      {{element.id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>File Name </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'mat-cell-selected': element.id === selectedDevice.id}">
+      {{element.name }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="model">
+    <th mat-header-cell *matHeaderCellDef>File Size </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'mat-cell-selected': element.id === selectedDevice.id}">
+      {{element.length | fileSize }} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Last Updated </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'mat-cell-selected': element.id === selectedDevice.id}">
+      {{element.lastUpdated | date: 'dd MMM yy, hh:mm a'}} </td>
+  </ng-container>
+
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>Save </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="saveCumulocityImage(element)" [matTooltip]="'Save Image'">
+        <span class="mdi text-secondary mdi-content-save"></span>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<div class="formPanel" *ngIf="selectedDevice?.id">
+  <mat-toolbar>
+    <div class="toolbar-mid">
+      Series Parameters
+    </div>
+    <div class="content-toolbar">
+      <button mat-icon-button matTooltip="Cancel" (click)="selectedDevice = {}">
+        <span class="mdi mdi-close text-secondary"></span>
+      </button>
+      <button mat-icon-button matTooltip="Submit" (click)="submitSeriesParameters()">
+        <span class="mdi mdi-check text-secondary"></span>
+      </button>
+    </div>
+  </mat-toolbar>
+  <app-loader [isLoading]="isLoading" [message]=""></app-loader>
+  <div class="details-list">
+    <form class="p-3" #seriesForm="ngForm">
+
+      <mat-form-field class="w-100 pr-1">
+        <input matInput [(ngModel)]="seriesFilter.fileName" placeholder="File Name" name="fileName" type="text" required>
+      </mat-form-field>
+
+      <mat-form-field class="w-50 pr-2">
+        <input matInput (click)="pickerDateFrom.open()" [(ngModel)]="seriesFilter.dateFrom" [max]="seriesFilter.dateTo" [matDatepicker]="pickerDateFrom"
+          placeholder="Date From" name="dateFrom" readonly>
+        <mat-datepicker-toggle matSuffix [for]="pickerDateFrom"></mat-datepicker-toggle>
+        <mat-datepicker #pickerDateFrom></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="w-25 pr-1">
+        <input matInput [(ngModel)]="seriesFilter.timeFromH" placeholder="Hours" name="timeFromH" type="number">
+      </mat-form-field>
+      <mat-form-field class="w-25">
+        <input matInput [(ngModel)]="seriesFilter.timeFromM" placeholder="Minutes" name="timeFromM" type="number">
+      </mat-form-field>
+
+      <mat-form-field class="w-50 pr-2">
+        <input matInput (click)="pickerDateTo.open()" [(ngModel)]="seriesFilter.dateTo" [min]="seriesFilter.dateFrom" [matDatepicker]="pickerDateTo"
+          placeholder="Date To" name="dateTo" readonly>
+        <mat-datepicker-toggle matSuffix [for]="pickerDateTo"></mat-datepicker-toggle>
+        <mat-datepicker #pickerDateTo></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="w-25 pr-1">
+        <input matInput [(ngModel)]="seriesFilter.timeToH" placeholder="Hours" name="timeToH" type="number">
+      </mat-form-field>
+      <mat-form-field class="w-25">
+        <input matInput [(ngModel)]="seriesFilter.timeToM" placeholder="Minutes" name="timeToM" type="number">
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="seriesFilter.aggregationType" placeholder="Aggregation" name="aggregationType">
+          <mat-option value="">NONE</mat-option>
+          <mat-option *ngFor="let option of aggregationOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="seriesFilter.series" placeholder="Data Points" name="series" multiple required>
+          <mat-option *ngFor="let option of dataPoints" [value]="option.type+'.'+option.name">{{option.type}} =>
+            {{option.name}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-100" hidden>
+        <input matInput [(ngModel)]="seriesFilter.pageSize" placeholder="Page Size" name="pageSize" type="number"
+          required>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+</div>

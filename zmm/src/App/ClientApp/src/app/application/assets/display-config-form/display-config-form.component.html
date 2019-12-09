@@ -1,0 +1,29 @@
+<div class="formPanel">
+  <mat-toolbar>
+    <div class="toolbar-mid">
+      Config Parameters
+    </div>
+    <div class="content-toolbar">
+      <button mat-icon-button matTooltip="Cancel" (click)="closeForm()">
+        <span class="mdi mdi-close text-secondary"></span>
+      </button>
+      <button mat-icon-button matTooltip="Submit" (click)="submit()">
+        <span class="mdi mdi-check text-secondary"></span>
+      </button>
+    </div>
+  </mat-toolbar>
+  <app-loader [isLoading]="isLoading" [message]=""></app-loader>
+  <div class="details-list">
+    <form class="p-3" #displayConfigForm="ngForm">
+
+
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="formData.gpu" placeholder="GPU" name="gpu" required>
+          <mat-option *ngFor="let option of gpuOptions" [value]="option.id">{{option.name}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+    </form>
+  </div>
+</div>

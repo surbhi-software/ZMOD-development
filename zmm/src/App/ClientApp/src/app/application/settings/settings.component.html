@@ -1,0 +1,27 @@
+<mat-sidenav-container class="page-container">
+  <mat-sidenav #sidenav mode="side" closed class="content-sidenav" [fixedInViewport]="false" [fixedTopGap]="0"
+    [fixedBottomGap]="0">
+    <mat-toolbar>
+      <div class="toolbar-mid">
+      </div>
+      <div class="content-toolbar">
+      </div>
+    </mat-toolbar>
+  </mat-sidenav>
+  <mat-sidenav-content class="content-main" [@.disabled]="true">
+    <app-loader [isLoading]="isLoading"></app-loader>
+    <mat-toolbar>
+      <h2>Manage Credentials</h2>
+      <div class="toolbar-mid"></div>
+      <div class="content-toolbar">
+        <button mat-icon-button matTooltip="Save" (click)="saveSettings()">
+          <span class="mdi mdi-content-save text-secondary"></span>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div class="details">
+      <ngx-monaco-editor class="app-code-editor" [options]="editorOptions" [(ngModel)]="settingsJSON">
+      </ngx-monaco-editor>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

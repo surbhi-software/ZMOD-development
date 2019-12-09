@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" version="4.3Ext">
+    <Header copyright="Copyright (c) 2018 Software AG" description="Neural Network Model">
+        <Extension value="{'dataUrl': '//ZMOD/Data/admissions.csv', 'scriptOutput': 'NA'}">
+            
+        </Extension>
+        <Timestamp>2019-04-25 08:51:56.307260</Timestamp>
+    </Header>
+    <DataDictionary numberOfFields="2">
+        <DataField name="dataSet" optype="categorical" dataType="string"/>
+        <DataField name="predictions" optype="categorical" dataType="string">
+            <Value value="0"/>
+            <Value value="1"/>
+        </DataField>
+    </DataDictionary>
+    <DeepNetwork modelName="TrainedModel" functionName="classification" numberOfLayers="3">
+        <MiningSchema>
+            <MiningField name="dataSet" usageType="active" invalidValueTreatment="asIs"/>
+            <MiningField name="predictions" usageType="target" invalidValueTreatment="asIs"/>
+        </MiningSchema>
+        <Output>
+            <OutputField name="predictedValue_predictions" optype="categorical" dataType="string" feature="predictedValue"/>
+            <OutputField name="top1_prob" dataType="double" feature="probability"/>
+            <OutputField name="top5_prob" optype="categorical" dataType="string" feature="topCategories" numTopCategories="5"/>
+        </Output>
+        <NetworkLayer layerType="Input" layerId="Input_2" connectionLayerId="na" inputFieldName="dataSet">
+            <LayerParameters inputDimension="(2, 1)" outputDimension="(2, 1)" trainable="true"/>
+        </NetworkLayer>
+        <NetworkLayer layerType="Dense" layerId="Dense_3" connectionLayerId="Input_2">
+            <LayerParameters activationFunction="rectifier" inputDimension="(2, 1)" outputDimension="(10, 1)" trainable="true" units="10"/>
+            <LayerWeights weightsShape="(2, 10)" weightsFlattenAxis="0">
+				data:float32;base64,NZOYvjTSHj6osHU+GOdPvpBjTj02Dy2/P2gsv35Jxj5AZYo++Av+vVAvSz3RkLK+XnL+PtbJij71LSE/eNBVvsAD8LxbmYK+uuKzPiClCD0=
+            </LayerWeights>
+            <LayerBias biasShape="(10, 1)" biasFlattenAxis="0">
+				data:float32;base64,AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="Dense" layerId="Dense_4" connectionLayerId="Dense_3">
+            <LayerParameters activationFunction="sigmoid" inputDimension="(10, 1)" outputDimension="(1, 1)" trainable="true" units="1"/>
+            <LayerWeights weightsShape="(10, 1)" weightsFlattenAxis="0">
+				data:float32;base64,Ns4GvyDopby4oR0+4JCEPos+xr6U9GA+0hKhPmvPDr8fvRU/EOpWPg==
+            </LayerWeights>
+            <LayerBias biasShape="(1, 1)" biasFlattenAxis="0">
+				data:float32;base64,AAAAAA==
+            </LayerBias>
+        </NetworkLayer>
+    </DeepNetwork>
+</PMML>

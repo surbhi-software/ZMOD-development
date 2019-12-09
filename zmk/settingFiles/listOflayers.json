@@ -1,0 +1,971 @@
+{
+  "layerinfo": [
+    {
+      "icon": "mdi mdi-layers",
+      "layerGroup": "Standard Layer",
+      "layers": [
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "Input",
+          "trainable": true,
+          "name": "Input",
+          "properties": [
+            {
+              "dataType": "array",
+              "hint": "Input Shape of the Data",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "Output Dimension",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "Dense",
+          "trainable": true,
+          "name": "Dense",
+          "properties": [
+            {
+              "dataType": "string",
+              "hint": "Activation function for the dense layer",
+              "id": "activationFunction",
+              "label": "Activation Function",
+              "options": [
+                "linear",
+                "tanh",
+                "relu",
+                "sigmoid",
+                "softmax"
+              ],
+              "value": "linear"
+            },
+            {
+              "dataType": "integer",
+              "hint": "Neurons for fully connected layer",
+              "id": "units",
+              "label": "Units",
+              "options": [],
+              "value": ""
+            },
+            {
+              "dataType": "array",
+              "hint": "only required if dragged first",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "options": [],
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "Dropout",
+          "trainable": true,
+          "name": "Dropout",
+          "properties": [
+            {
+              "dataType": "float",
+              "hint": "Value between 0 to 1",
+              "id": "dropoutRate",
+              "label": "Dropout Rate",
+              "options": [],
+              "value": ""
+            },
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "options": [],
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "Flatten",
+          "trainable": true,
+          "name": "Flatten",
+          "properties": [
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "string",
+              "hint": "By default Channels last",
+              "id": "data_format",
+              "label": "Data format",
+              "options": [
+                "channels_last"
+              ],
+              "value": "channels_last"
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "options": [],
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "BatchNormalization",
+          "trainable": true,
+          "name": "BatchNormalization",
+          "properties": [
+            {
+              "dataType": "float",
+              "hint": "Float value",
+              "id": "batchNormalizationEpsilon",
+              "label": "Batch Normalization Epsilon",
+              "options": [],
+              "value": 0.001
+            },
+            {
+              "dataType": "integer",
+              "hint": "choose value either -1 or 1",
+              "id": "batchNormalizationAxis",
+              "label": "Batch Normalization Axis",
+              "options": [],
+              "value": -1
+            },
+            {
+              "dataType": "boolean",
+              "hint": "",
+              "id": "batchNormalizationScale",
+              "label": "Batch Normalization Scale",
+              "options": [
+                "True",
+                "False"
+              ],
+              "value": "True"
+            },
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "value": []
+            },
+            {
+              "dataType": "boolean",
+              "hint": "",
+              "id": "center",
+              "label": "Center",
+              "value": "True",
+              "options": [
+                "True",
+                "False"
+              ]
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "Conv2D",
+          "trainable": true,
+          "name": "Conv2D",
+          "properties": [
+            {
+              "dataType":"integer",
+              "hint": "Integer value",
+              "id": "featureMaps",
+              "label": "Feature Maps",
+              "options": [],
+              "value": 1
+            },
+            {
+              "dataType":"array",
+              "hint": "filter size tuple value",
+              "id": "kernel",
+              "label": "Kernel",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType":"string",
+              "hint": "Padding value for convolution",
+              "id": "paddingType",
+              "label": "Padding Type",
+              "options": [
+               "valid","same"
+              ],
+              "value": "valid"
+            },
+            {
+              "dataType":"array",
+              "hint": "Stride tuple value",
+              "id": "stride",
+              "label": "Stride",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType":"array",
+              "hint": "Integer or tuple or list",
+              "id": "dilationRate",
+              "label": "dilationRate",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType":"array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "value": []
+            },
+            {
+              "dataType":"array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "value": []
+            },
+            {
+              "dataType":"string",
+              "hint": "Activation function",
+              "id": "activationFunction",
+              "label": "Activation Function",
+              "options": [
+                  "linear",
+                "tanh",
+                "relu",
+                "sigmoid",
+                "softmax"
+              ],
+              "value": "linear"
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "DepthwiseConv2D",
+          "trainable": true,
+          "name": "DepthwiseConv2D",
+          "properties": [
+            {
+              "dataType":"integer",
+              "hint": "Integer value",
+              "id": "depthMultiplier",
+              "label": "Depth Multiplier",
+              "options": [],
+              "value": 1
+            },
+            {
+              "dataType":"array",
+              "hint": "filter size tuple value",
+              "id": "kernel",
+              "label": "Kernel",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType":"string",
+              "hint": "Padding value for convolution",
+              "id": "paddingType",
+              "label": "Padding Type",
+              "options": [
+               "valid","same"
+              ],
+              "value": "valid"
+            },
+            {
+              "dataType":"array",
+              "hint": "Stride tuple value",
+              "id": "stride",
+              "label": "Stride",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType":"array",
+              "hint": "Integer or tuple or list",
+              "id": "dilationRate",
+              "label": "Dilation Rate",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType":"array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "value": []
+            },
+            {
+              "dataType":"array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "value": []
+            },
+            {
+              "dataType":"string",
+              "hint": "",
+              "id": "activationFunction",
+              "label": "Activation Function",
+              "options": [
+                  "linear",
+                "tanh",
+                "relu",
+                "sigmoid",
+                "softmax"
+              ],
+              "value": "linear"
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "ZeroPadding1D",
+          "trainable": true,
+          "name": "ZeroPadding1D",
+          "properties": [
+            {
+              "dataType": "array",
+              "hint": "Padding dimension of the layer integer, tuple",
+              "id": "paddingDims",
+              "label": "Padding Dims",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "ZeroPadding2D",
+          "trainable": true,
+          "name": "ZeroPadding2D",
+          "properties": [
+            {
+              "dataType": "array",
+              "hint": "Padding dimension for the layer",
+              "id": "paddingDims",
+              "label": "Padding Dims",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "string",
+              "hint": "Channel information of data",
+              "id": "data_format",
+              "label": "Data Format",
+              "options": ["channels_last","channels_first"],
+              "value": "channels_last"
+            },
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "ZeroPadding3D",
+          "trainable": true,
+          "name": "ZeroPadding3D",
+          "properties": [
+            {
+              "dataType": "array",
+              "hint": "Padding dimensions for the layer",
+              "id": "paddingDims",
+              "label": "Padding Dims",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "string",
+              "hint": "Channel information of data",
+              "id": "data_format",
+              "label": "Data Format",
+              "options": ["channels_last","channels_first"],
+              "value": "channels_last"
+            },
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "Activation",
+          "trainable": true,
+          "name": "Activation",
+          "properties": [
+            {
+              "dataType":"string",
+              "hint": "",
+              "id": "activationFunction",
+              "label": "Activation Function",
+              "options": [
+                  "linear",
+                "tanh",
+                "relu",
+                "sigmoid",
+                "softmax"
+              ],
+              "value": "linear"
+            },
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "Activation",
+          "trainable": true,
+          "name": "ReLU",
+          "properties": [
+            {
+              "dataType":"integer",
+              "hint": "integer",
+              "id": "max_value",
+              "label": "Max value",
+              "options": [],
+              "value": ""
+            },
+            {
+              "dataType":"string",
+              "hint": "",
+              "id": "activationFunction",
+              "label": "Activation Function",
+              "options": [
+                "linear",
+                "tanh",
+                "relu",
+                "sigmoid",
+                "softmax"
+              ],
+              "value": "relu"
+            },
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "GlobalAveragePooling2D",
+          "trainable": true,
+          "name": "GlobalAveragePooling2D",
+          "properties": [
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "string",
+              "hint": "By default Channels last",
+              "id": "data_format",
+              "label": "Data format",
+              "options": [
+                "channels_last",
+                "channels_first"
+              ],
+              "value": "channels_last"
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "options": [],
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "Reshape",
+          "trainable": true,
+          "name": "Reshape",
+          "properties": [
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "tuple of target shape",
+              "id": "reshapeTarget",
+              "label": "Target Shape",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "options": [],
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "MaxPooling1D",
+          "trainable": true,
+          "name": "MaxPooling1D",
+          "properties": [
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "string",
+              "hint": "By default Channels last",
+              "id": "data_format",
+              "label": "Data format",
+              "options": [
+                "channels_last",
+                "channels_first"
+              ],
+              "value": "channels_last"
+            },
+            {
+              "dataType": "integer",
+              "hint": "Max pooling window",
+              "id": "poolSize",
+              "label": "Pool Size",
+              "options": [],
+              "value": ""
+            },
+            {
+              "dataType": "integer",
+              "hint": "integer or none",
+              "id": "stride",
+              "label": "Strides",
+              "options": [],
+              "value": ""
+            },
+            {
+              "dataType":"string",
+              "hint": "Padding value for convolution",
+              "id": "paddingType",
+              "label": "Padding Type",
+              "options": [
+               "valid","same"
+              ],
+              "value": "valid"
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "options": [],
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "MaxPooling2D",
+          "trainable": true,
+          "name": "MaxPooling2D",
+          "properties": [
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "string",
+              "hint": "By default Channels last",
+              "id": "data_format",
+              "label": "Data format",
+              "options": [
+                "channels_last",
+                "channels_first"
+              ],
+              "value": "channels_last"
+            },
+            {
+              "dataType": "array",
+              "hint": "Max pooling window",
+              "id": "poolSize",
+              "label": "Pool Size",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "integer or none",
+              "id": "stride",
+              "label": "Strides",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType":"string",
+              "hint": "Padding value for convolution",
+              "id": "paddingType",
+              "label": "Padding Type",
+              "options": [
+               "valid","same"
+              ],
+              "value": "valid"
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "options": [],
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "AveragePooling1D",
+          "trainable": true,
+          "name": "AveragePooling1D",
+          "properties": [
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "integer",
+              "hint": "Max pooling window",
+              "id": "poolSize",
+              "label": "Pool Size",
+              "options": [],
+              "value": ""
+            },
+            {
+              "dataType": "integer",
+              "hint": "integer or none",
+              "id": "stride",
+              "label": "Strides",
+              "options": [],
+              "value": ""
+            },
+            {
+              "dataType":"string",
+              "hint": "Padding value for convolution",
+              "id": "paddingType",
+              "label": "Padding Type",
+              "options": [
+               "valid","same"
+              ],
+              "value": "valid"
+            },
+            {
+              "dataType": "string",
+              "hint": "By default Channels last",
+              "id": "data_format",
+              "label": "Data format",
+              "options": [
+                "channels_last",
+                "channels_first"
+              ],
+              "value": "channels_last"
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "options": [],
+              "value": []
+            }
+          ]
+        },
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "AveragePooling2D",
+          "trainable": true,
+          "name": "AveragePooling2D",
+          "properties": [
+            {
+              "dataType": "array",
+              "hint": "Input dimension of the layer",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "string",
+              "hint": "By default Channels last",
+              "id": "data_format",
+              "label": "Data format",
+              "options": [
+                "channels_last",
+                "channels_first"
+              ],
+              "value": "channels_last"
+            },
+            {
+              "dataType": "array",
+              "hint": "Max pooling window",
+              "id": "poolSize",
+              "label": "Pool Size",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "integer or none",
+              "id": "stride",
+              "label": "Strides",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType":"string",
+              "hint": "Padding value for convolution",
+              "id": "paddingType",
+              "label": "Padding Type",
+              "options": [
+               "valid","same"
+              ],
+              "value": "valid"
+            },
+            {
+              "dataType": "array",
+              "hint": "Output dimension of the layer",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "options": [],
+              "value": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "icon": "mdi mdi-layers",
+      "layerGroup": "Recurrent Layer",
+      "layers":[
+        {
+          "connectionLayerId": "NA",
+          "itemType": "LAYER",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "layerType": "LSTM",
+          "trainable": true,
+          "name": "LSTM",
+          "properties": [
+            {
+              "dataType": "array",
+              "hint": "Input Shape of the Data",
+              "id": "inputDimension",
+              "label": "Input Dimension",
+              "options": [],
+              "value": []
+            },
+            {
+              "dataType": "array",
+              "hint": "Output Dimension",
+              "id": "outputDimension",
+              "label": "Output Dimension",
+              "value": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "icon": "mdi mdi-layers",
+      "layerGroup": "Templates",
+      "layers": [
+        {
+          "itemType": "TEMPLATE",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "templateId": "mobilenetArch",
+          "name": "Mobilenet"
+        },
+        {
+          "itemType": "TEMPLATE",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "templateId": "vgg16Arch",
+          "name": "VGG-16"
+        },
+        {
+          "itemType": "TEMPLATE",
+          "layerId": "NA",
+          "layerIndex": "NA",
+          "templateId": "vgg19Arch",
+          "name": "VGG-19"
+        }
+      ]
+    }
+  ]
+}

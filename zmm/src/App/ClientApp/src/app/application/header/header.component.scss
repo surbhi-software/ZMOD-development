@@ -1,0 +1,53 @@
+.application-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+    -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12);
+    -ms-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12);
+    color: #0b385b;
+    padding: 0 10px 0 5px !important;
+    .mdi {
+      color: #0b385b;
+    }
+    .avatar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      img {
+        width: 40px;
+        height: 40px;
+      }
+  }
+  .logo {
+
+   a, h3 {
+      color: #0b385b;
+      text-decoration: none !important;
+      line-height: 1.3;
+      font-size: 1.4rem;
+   }
+
+  }
+}
+
+.login-media {
+    display: inline-block;
+    padding: 0 15px;
+    vertical-align: middle;
+    .logo {
+      padding: 20px 0;
+      h3 {
+        font-size: 22px;
+      }
+    }
+}
+.lh-30 {
+  line-height: 30px;
+}

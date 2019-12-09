@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AssemblyName>ZMM.Tasks</AssemblyName>
+    <RootNamespace>ZMM.Tasks</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="tools\tools.config.json" />
+    <None Remove="tools\tools.config.with.https.certificate.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="tools\tools.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\tools.config.with.https.certificate.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,135 @@
+<div class="formPanel">
+  <mat-toolbar>
+    <div class="toolbar-mid">
+      Training Parameters
+    </div>
+    <div class="content-toolbar">
+      <button mat-icon-button matTooltip="Cancel" (click)="closeForm()">
+        <span class="mdi mdi-close text-secondary"></span>
+      </button>
+      <button mat-icon-button matTooltip="Submit" (click)="submit()">
+        <span class="mdi mdi-check text-secondary"></span>
+      </button>
+    </div>
+  </mat-toolbar>
+  <app-loader [isLoading]="isLoading" [message]=""></app-loader>
+  <div class="details-list">
+    <form #automlTrainingParamsForm="ngForm">
+      <ng-template [ngIf]="!option.supervised">
+        <div class="px-4">
+          <mat-form-field class="w-100">
+            <input matInput [(ngModel)]="formData.model_name" placeholder="Model Name" name="model_name" type="text"
+              required>
+            <mat-error>required</mat-error>
+          </mat-form-field>
+          <!-- <mat-form-field class="w-100">
+            <mat-select [(ngModel)]="formData.algorithm" placeholder="Algorithm" name="algorithm" multiple required>
+              <mat-option *ngFor="let option of algorithmOptionsAnomaly" [value]="option">{{option}}</mat-option>
+            </mat-select>
+            <mat-error>required</mat-error>
+          </mat-form-field> -->
+          <label class="mr-4">Algorithm </label>
+          <mat-radio-group [(ngModel)]="formData.algorithm" name="algorithm">
+            <mat-radio-button *ngFor="let option of algorithmOptionsAnomaly" [value]="option" class="mr-3 w-100">{{option}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </ng-template>
+      <ng-template [ngIf]="option.supervised">
+        <div class="px-4">
+          <!-- Added -->
+          <mat-form-field class="w-100">
+            <input matInput [(ngModel)]="formData.model_name" placeholder="Model Name" name="model_name" type="text"
+              required>
+            <mat-error>required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <mat-select [(ngModel)]="formData.scoring" placeholder="Scoring" name="scoring" required>
+              <mat-option *ngFor="let option of scoringOptions" [value]="option">{{option}}</mat-option>
+            </mat-select>
+            <mat-error>required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <mat-select [(ngModel)]="formData.algorithm" placeholder="Algorithm" name="algorithm" multiple required>
+              <mat-option *ngFor="let option of algorithmOptions" [value]="option">{{option}}</mat-option>
+            </mat-select>
+            <mat-error>required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <input matInput [(ngModel)]="formData.generation" placeholder="Generation" name="generation" type="number"
+              required>
+            <mat-error>required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <input matInput [(ngModel)]="formData.population_size" placeholder="Population Size" name="population_size"
+              type="number" required>
+            <mat-error>required</mat-error>
+          </mat-form-field>
+        </div>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Advanced
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-form-field class="w-100">
+              <input matInput [(ngModel)]="formData.offspring_size" placeholder="Offspring Size" name="offspring_size"
+                type="number">
+              <mat-error>required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput [(ngModel)]="formData.mutation_rate" placeholder="Mutation Rate" name="mutation_rate"
+                type="number">
+              <mat-error>required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput [(ngModel)]="formData.crossover_rate" placeholder="Crossover Rate" name="crossover_rate"
+                type="number">
+              <mat-error>required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput [(ngModel)]="formData.cv" placeholder="CV" name="cv" type="number">
+              <mat-error>required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput [(ngModel)]="formData.subsample" placeholder="Subsample" name="subsample" type="number">
+              <mat-error>required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput [(ngModel)]="formData.n_jobs" placeholder="N Jobs" name="n_jobs" type="number">
+              <mat-error>required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput [(ngModel)]="formData.max_time_mins" placeholder="max_time_mins" name="max_time_mins"
+                type="number">
+              <mat-error>required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput [(ngModel)]="formData.max_eval_time_mins" placeholder="max_eval_time_mins"
+                name="max_eval_time_mins" type="number">
+              <mat-error>required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput [(ngModel)]="formData.random_state" placeholder="Random State" name="random_state"
+                type="number">
+              <mat-error>required</mat-error>
+            </mat-form-field>
+            <!-- : false, // (boolean, optional) -->
+            <mat-form-field class="w-100">
+              <input matInput [(ngModel)]="formData.warm_start" placeholder="Warm Start" name="warm_start"
+                type="number">
+              <mat-error>required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput [(ngModel)]="formData.early_stop" placeholder="Early Stop" name="early_stop"
+                type="number">
+              <mat-error>required</mat-error>
+            </mat-form-field>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ng-template>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<mat-sidenav-container class="page-container">
+  <mat-sidenav #sidenav mode="side" opened class="content-sidenav" [fixedInViewport]="false" [fixedTopGap]="0" [fixedBottomGap]="0">
+    <mat-toolbar>
+      <div class="toolbar-mid">
+        <div class="filter">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <span class="mdi mdi-magnify"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="filter" placeholder="Filter">
+          </div>
+        </div>
+      </div>
+      <div class="content-toolbar">
+        <button mat-icon-button matTooltip="Start ZMK Instance" (click)="displayInstanceForm()">
+          <span class="mdi mdi-file-plus text-secondary"></span>
+        </button>
+      </div>
+    </mat-toolbar>
+    <app-loader [isLoading]="isLoading"></app-loader>
+    <cdk-virtual-scroll-viewport itemSize="51" class="details-list">
+      <ul class="list-group list-group-flush">
+        <li *cdkVirtualFor="let item of listOfInstances | orderByDate:'-created_on'| searchfilter:'name':filter" [ngClass]="{'active': (item.id === selectedInstance.id)}"
+          class="list-group-item list-group-item-action text-truncate" (click)="sidenav.open();viewInstance(item);">
+          <span class="mdi mr-2" [ngClass]="utilService.fileTypeIcon(item.type)"></span>
+          <span innerHtml="{{ item.name | highlight: filter }}"></span>
+        </li>
+        <li *ngIf="!(listOfInstances && listOfInstances.length) && !isLoading" class="list-group-item text-truncate text-center text-muted">
+          No instances available
+        </li>
+      </ul>
+    </cdk-virtual-scroll-viewport>
+  </mat-sidenav>
+  <mat-sidenav-content class="content-main" [@.disabled]="true">
+    <app-loader [isLoading]="isLoading"></app-loader>
+    <mat-toolbar>
+      <h2 #name contenteditable="true">{{ selectedInstance?.name }}</h2>
+      <div class="toolbar-mid"></div>
+      <div class="content-toolbar">
+        <button *ngIf="selectedInstance?.id && (selectedInstance?.type !== 'GPU')" mat-icon-button matTooltip="Kill the instance"
+          (click)="killInstance();">
+          <span class="mdi mdi-power text-secondary"></span>
+        </button>
+        <button mat-icon-button (click)="sidenav.toggle(); toggleSidebar(sidenav.opened ? 'FULLSCREEN' : 'FULLSCREEN_EXIT')" [matTooltip]="sidenav.opened ? 'Fullscreen' : 'Fullscreen Exit'">
+          <span class="mdi text-secondary" [ngClass]="{'mdi-fullscreen': sidenav.opened, 'mdi-fullscreen-exit': !sidenav.opened}"></span>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div class="details">
+      <div class="container-fluid py-3">
+        <dl class="row">
+          <ng-template ngFor let-prop [ngForOf]="selectedInstance?.properties" let-i="index">
+            <dt class="col-sm-3 text-truncate text-capitalize">{{ prop.key }}</dt>
+            <dd class="col-sm-9">{{ prop.value }}</dd>
+          </ng-template>
+        </dl>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<app-display-config-form *ngIf="showFormPanel" [option]="listOfInstances" (close)="showFormPanel=false;" (selected)="onDisplayConfigFormSubmit($event)"></app-display-config-form>

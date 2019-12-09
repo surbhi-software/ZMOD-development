@@ -1,0 +1,80 @@
+<div class="formPanel">
+  <mat-toolbar>
+    <div class="toolbar-mid">
+      Config Params
+    </div>
+    <div class="content-toolbar">
+      <button mat-icon-button matTooltip="Submit" (click)="generateImages()">
+        <span class="mdi mdi-check text-secondary"></span>
+      </button>
+    </div>
+  </mat-toolbar>
+  <app-loader [isLoading]="isLoading" [message]=""></app-loader>
+  <div class="details-list">
+    <form class="p-3" #thisForm="ngForm">
+      <mat-form-field class="w-100">
+        <input matInput [(ngModel)]="formData.folderName" placeholder="Folder Name" name="folderName" type="text" required>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <!-- <mat-form-field class="w-100">
+        <input matInput [(ngModel)]="formData.bgColor" placeholder="Background Color" name="bgColor" type="color"
+          required (change)="submit()">
+        <mat-error>required</mat-error>
+      </mat-form-field> -->
+
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="formData.bgColor" placeholder="Background Color" name="bgColor" required (selectionChange)="submit()">
+          <mat-option *ngFor="let option of colorOptions" [value]="option.hexCode"><span class="border mdi mdi-circle mr-2 rounded-circle" [style.color]="option.hexCode" [style.background-color]="option.hexCode"></span> {{option.name}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <input matInput [(ngModel)]="formData.numberOfImages" placeholder="No. of Images" name="numberOfImages" type="number" required
+          (change)="submit()">
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="formData.gap" placeholder="Gap [px]" name="gap" required (selectionChange)="submit()">
+          <mat-option *ngFor="let option of gapOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="formData.xVar" placeholder="X Var [px]" name="xVar" required (selectionChange)="submit()">
+          <mat-option *ngFor="let option of x_varOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="formData.yVar" placeholder="Y Var [px]" name="yVar" required (selectionChange)="submit()">
+          <mat-option *ngFor="let option of y_varOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="formData.reSize" placeholder="Resize [px]" name="reSize" required (selectionChange)="submit()">
+          <mat-option *ngFor="let option of resizeOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="formData.numPlates" placeholder="No. of Plates" name="numPlates" required (selectionChange)="submit()">
+          <mat-option *ngFor="let option of num_platesOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+
+
+      <!-- <div class="alert alert-warning" *ngIf="!thisForm.valid">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        Error Occured
+      </div> -->
+    </form>
+  </div>

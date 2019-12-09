@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" version="4.3Ext">
+    <Header copyright="Copyright (c) 2018 Software AG" description="Neural Network Model">
+        <Timestamp>2019-02-13 14:12:51.10000</Timestamp>
+    </Header>
+    <DeepNetwork numberOfLayers="23">
+        <NetworkLayer layerType="Input" layerId="input_1" connectionLayerId="NA" inputFieldName="base64String">
+            <LayerParameters inputDimension="(224, 224, 3)" outputDimension="(224, 224, 3)" trainable="true"/>
+        </NetworkLayer>
+        <NetworkLayer layerType="Conv2D" layerId="block1_conv1" connectionLayerId="input_1">
+            <Extension value="{'sectionId': 'JS2Y6YIXJ153W'}"/>
+            <LayerParameters activationFunction="rectifier" inputDimension="(224, 224, 3)" outputDimension="(224, 224, 64)" featureMaps="64" kernel="(3, 3)" paddingType="same" stride="(1, 1)" dilationRate="(1, 1)" trainable="true"/>
+            <LayerWeights weightsShape="(3, 3, 3, 64)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(64, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="Conv2D" layerId="block1_conv2" connectionLayerId="block1_conv1">
+            <Extension value="{'sectionId': 'JS2Y6YIXJ153W'}"/>
+            <LayerParameters activationFunction="rectifier" inputDimension="(224, 224, 64)" outputDimension="(224, 224, 64)" featureMaps="64" kernel="(3, 3)" paddingType="same" stride="(1, 1)" dilationRate="(1, 1)" trainable="true"/>
+            <LayerWeights weightsShape="(3, 3, 64, 64)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(64, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="MaxPooling2D" layerId="block1_pool" connectionLayerId="block1_conv2">
+            <Extension value="{'sectionId': 'JS2Y6YIXJ153W'}"/>
+            <LayerParameters inputDimension="(224, 224, 64)" outputDimension="(112, 112, 64)" paddingType="valid" stride="(2, 2)" poolSize="(2, 2)" trainable="true"/>
+        </NetworkLayer>
+        <NetworkLayer layerType="Conv2D" layerId="block2_conv1" connectionLayerId="block1_pool">
+            <Extension value="{'sectionId': 'JS2Y76DLJB04F'}"/>
+            <LayerParameters activationFunction="rectifier" inputDimension="(112, 112, 64)" outputDimension="(112, 112, 128)" featureMaps="128" kernel="(3, 3)" paddingType="same" stride="(1, 1)" dilationRate="(1, 1)" trainable="true"/>
+            <LayerWeights weightsShape="(3, 3, 64, 128)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(128, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="Conv2D" layerId="block2_conv2" connectionLayerId="block2_conv1">
+            <Extension value="{'sectionId': 'JS2Y76DLJB04F'}"/>
+            <LayerParameters activationFunction="rectifier" inputDimension="(112, 112, 128)" outputDimension="(112, 112, 128)" featureMaps="128" kernel="(3, 3)" paddingType="same" stride="(1, 1)" dilationRate="(1, 1)" trainable="true"/>
+            <LayerWeights weightsShape="(3, 3, 128, 128)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(128, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="MaxPooling2D" layerId="block2_pool" connectionLayerId="block2_conv2">
+            <Extension value="{'sectionId': 'JS2Y76DLJB04F'}"/>
+            <LayerParameters inputDimension="(112, 112, 128)" outputDimension="(56, 56, 128)" paddingType="valid" stride="(2, 2)" poolSize="(2, 2)" trainable="true"/>
+        </NetworkLayer>
+        <NetworkLayer layerType="Conv2D" layerId="block3_conv1" connectionLayerId="block2_pool">
+            <Extension value="{'sectionId': 'JS2Y7CC1O47HI'}"/>
+            <LayerParameters activationFunction="rectifier" inputDimension="(56, 56, 128)" outputDimension="(56, 56, 256)" featureMaps="256" kernel="(3, 3)" paddingType="same" stride="(1, 1)" dilationRate="(1, 1)" trainable="true"/>
+            <LayerWeights weightsShape="(3, 3, 128, 256)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(256, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="Conv2D" layerId="block3_conv2" connectionLayerId="block3_conv1">
+            <Extension value="{'sectionId': 'JS2Y7CC1O47HI'}"/>
+            <LayerParameters activationFunction="rectifier" inputDimension="(56, 56, 256)" outputDimension="(56, 56, 256)" featureMaps="256" kernel="(3, 3)" paddingType="same" stride="(1, 1)" dilationRate="(1, 1)" trainable="true"/>
+            <LayerWeights weightsShape="(3, 3, 256, 256)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(256, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="Conv2D" layerId="block3_conv3" connectionLayerId="block3_conv2">
+            <Extension value="{'sectionId': 'JS2Y7CC1O47HI'}"/>
+            <LayerParameters activationFunction="rectifier" inputDimension="(56, 56, 256)" outputDimension="(56, 56, 256)" featureMaps="256" kernel="(3, 3)" paddingType="same" stride="(1, 1)" dilationRate="(1, 1)" trainable="true"/>
+            <LayerWeights weightsShape="(3, 3, 256, 256)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(256, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="MaxPooling2D" layerId="block3_pool" connectionLayerId="block3_conv3">
+            <Extension value="{'sectionId': 'JS2Y7CC1O47HI'}"/>
+            <LayerParameters inputDimension="(56, 56, 256)" outputDimension="(28, 28, 256)" paddingType="valid" stride="(2, 2)" poolSize="(2, 2)" trainable="true"/>
+        </NetworkLayer>
+        <NetworkLayer layerType="Conv2D" layerId="block4_conv1" connectionLayerId="block3_pool">
+            <Extension value="{'sectionId': 'JS2Y7LS2UXA8X'}"/>
+            <LayerParameters activationFunction="rectifier" inputDimension="(28, 28, 256)" outputDimension="(28, 28, 512)" featureMaps="512" kernel="(3, 3)" paddingType="same" stride="(1, 1)" dilationRate="(1, 1)" trainable="true"/>
+            <LayerWeights weightsShape="(3, 3, 256, 512)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(512, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="Conv2D" layerId="block4_conv2" connectionLayerId="block4_conv1">
+            <Extension value="{'sectionId': 'JS2Y7LS2UXA8X'}"/>
+            <LayerParameters activationFunction="rectifier" inputDimension="(28, 28, 512)" outputDimension="(28, 28, 512)" featureMaps="512" kernel="(3, 3)" paddingType="same" stride="(1, 1)" dilationRate="(1, 1)" trainable="true"/>
+            <LayerWeights weightsShape="(3, 3, 512, 512)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(512, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="Conv2D" layerId="block4_conv3" connectionLayerId="block4_conv2">
+            <Extension value="{'sectionId': 'JS2Y7LS2UXA8X'}"/>
+            <LayerParameters activationFunction="rectifier" inputDimension="(28, 28, 512)" outputDimension="(28, 28, 512)" featureMaps="512" kernel="(3, 3)" paddingType="same" stride="(1, 1)" dilationRate="(1, 1)" trainable="true"/>
+            <LayerWeights weightsShape="(3, 3, 512, 512)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(512, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="MaxPooling2D" layerId="block4_pool" connectionLayerId="block4_conv3">
+            <Extension value="{'sectionId': 'JS2Y7LS2UXA8X'}"/>
+            <LayerParameters inputDimension="(28, 28, 512)" outputDimension="(14, 14, 512)" paddingType="valid" stride="(2, 2)" poolSize="(2, 2)" trainable="true"/>
+        </NetworkLayer>
+        <NetworkLayer layerType="Conv2D" layerId="block5_conv1" connectionLayerId="block4_pool">
+            <Extension value="{'sectionId': 'JS2Y7T03FEL4L'}"/>
+            <LayerParameters activationFunction="rectifier" inputDimension="(14, 14, 512)" outputDimension="(14, 14, 512)" featureMaps="512" kernel="(3, 3)" paddingType="same" stride="(1, 1)" dilationRate="(1, 1)" trainable="true"/>
+            <LayerWeights weightsShape="(3, 3, 512, 512)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(512, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="Conv2D" layerId="block5_conv2" connectionLayerId="block5_conv1">
+            <Extension value="{'sectionId': 'JS2Y7T03FEL4L'}"/>
+            <LayerParameters activationFunction="rectifier" inputDimension="(14, 14, 512)" outputDimension="(14, 14, 512)" featureMaps="512" kernel="(3, 3)" paddingType="same" stride="(1, 1)" dilationRate="(1, 1)" trainable="true"/>
+            <LayerWeights weightsShape="(3, 3, 512, 512)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(512, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="Conv2D" layerId="block5_conv3" connectionLayerId="block5_conv2">
+            <Extension value="{'sectionId': 'JS2Y7T03FEL4L'}"/>
+            <LayerParameters activationFunction="rectifier" inputDimension="(14, 14, 512)" outputDimension="(14, 14, 512)" featureMaps="512" kernel="(3, 3)" paddingType="same" stride="(1, 1)" dilationRate="(1, 1)" trainable="true"/>
+            <LayerWeights weightsShape="(3, 3, 512, 512)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(512, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="MaxPooling2D" layerId="block5_pool" connectionLayerId="block5_conv3">
+            <Extension value="{'sectionId': 'JS2Y7T03FEL4L'}">
+                
+            </Extension>
+            <LayerParameters inputDimension="(14, 14, 512)" outputDimension="(7, 7, 512)" paddingType="valid" stride="(2, 2)" poolSize="(2, 2)" trainable="true"/>
+        </NetworkLayer>
+        <NetworkLayer layerType="Flatten" layerId="flatten" connectionLayerId="block5_pool">
+            <LayerParameters inputDimension="(7, 7, 512)" outputDimension="(25088, 1)" trainable="true"/>
+        </NetworkLayer>
+        <NetworkLayer layerType="Dense" layerId="fc1" connectionLayerId="flatten">
+            <LayerParameters activationFunction="rectifier" inputDimension="(25088, 1)" outputDimension="(4096, 1)" trainable="true" units="4096"/>
+            <LayerWeights weightsShape="(25088, 4096)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(4096, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="Dense" layerId="fc2" connectionLayerId="fc1">
+            <LayerParameters activationFunction="rectifier" inputDimension="(4096, 1)" outputDimension="(4096, 1)" trainable="true" units="4096"/>
+            <LayerWeights weightsShape="(4096, 4096)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(4096, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="Dense" layerId="predictions" connectionLayerId="fc2">
+            <LayerParameters activationFunction="softmax" inputDimension="(4096, 1)" outputDimension="(1000, 1)" trainable="true" units="1000"/>
+            <LayerWeights weightsShape="(4096, 1000)" weightsFlattenAxis="0">
+
+            </LayerWeights>
+            <LayerBias biasShape="(1000, 1)" biasFlattenAxis="0">
+
+            </LayerBias>
+        </NetworkLayer>
+    </DeepNetwork>
+</PMML>

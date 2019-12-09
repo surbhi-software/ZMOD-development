@@ -1,0 +1,110 @@
+pipeline {
+  agent {
+    node {
+      label 'DevBuild'
+    }
+
+  }
+  stages {
+    stage('Build') {
+      steps {
+        echo "node: ${env.NODE_NAME}"
+      }
+    }
+    stage('Core Units') {
+      parallel {
+        stage('ZMM Core') {
+          steps {
+            echo "node: ${env.NODE_NAME}"
+          }
+        }
+        stage('DS') {
+          steps {
+            echo 'Directory Scanning Units'
+          }
+        }
+        stage('JNB') {
+          steps {
+            echo 'JNB integration'
+          }
+        }
+        stage('TB') {
+          steps {
+            echo 'Tensorboard Unit Tests'
+          }
+        }
+        stage('Data') {
+          steps {
+            echo 'Data Unit Tests'
+          }
+        }
+        stage('Models') {
+          steps {
+            echo 'Models unit tests'
+          }
+        }
+        stage('Code') {
+          steps {
+            echo 'Code Unit Tests'
+          }
+        }
+      }
+    }
+    stage('Web App Units') {
+      parallel {
+        stage('Data') {
+          steps {
+            echo "node: ${env.NODE_NAME}"
+          }
+        }
+        stage('Code') {
+          steps {
+            echo "node: ${env.NODE_NAME}"
+          }
+        }
+        stage('Models') {
+          steps {
+            echo "node: ${env.NODE_NAME}"
+          }
+        }
+      }
+    }
+    stage('Sanity') {
+      parallel {
+        stage('Core') {
+          steps {
+            echo 'API Sanity'
+          }
+        }
+        stage('Web App') {
+          steps {
+            echo 'ClientApp sanity'
+          }
+        }
+      }
+    }
+    stage('Staging Promotion') {
+      steps {
+        echo 'Promote Staging'
+      }
+    }
+  }
+  post {
+    always {
+      cleanWs()
+
+    }
+
+  }
+  parameters {
+    choice(name: 'testtypetoexecute', choices: 'SANITY', description: 'Category  name')
+    choice(name: 'seleniumBrowser', choices: '''googlechrome
+firefox''', description: 'in which browser test should run?')
+    choice(name: 'ignoreObjectmap', choices: '''false
+true''', description: 'do you want to ignore object map while execution?')
+    choice(name: 'highlightElement', choices: '''false
+true''', description: 'during execution element should highlight or not?')
+    choice(name: 'forceBrowserToFront', choices: '''true
+false''', description: 'force to browser appear in front?')
+  }
+}

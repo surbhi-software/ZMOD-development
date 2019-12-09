@@ -1,0 +1,11 @@
+<div class="align-items-center d-flex justify-content-between">
+    <div class="text-message mr-2">{{ data?.message}}</div>
+    <div class="action">
+        <button *ngIf="data?.action" mat-button (click)="onActionBtnClick()" class="btnActionSnackbar text-primary">
+            {{ data?.action }}
+        </button>
+        <button mat-icon-button (click)="onCloseBtnClick()" class="btnCloseSnackbar">
+            <span class="mdi mdi-close"></span>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,222 @@
+.zme_editor {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 162px);
+    background: rgba(221, 221, 221, 0.2);
+    .left_sidebar,
+    .right_sidebar {
+        position: absolute;
+        background: white;
+        width: 250px;
+        height: 100%;
+        -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
+        left: 0;
+        overflow: auto;
+    }
+    .left_sidebar {
+        .ngx-dnd-container {
+            background-color: transparent;
+            border: 0;
+            margin: 0;
+            padding: 0;
+            .ngx-dnd-item {
+                margin: 4px 0;
+                padding: 7px 15px;
+                background-color: rgba(0, 0, 0, 0);
+                transition: opacity .4s ease-in-out;
+                display: block;
+                border: 1px solid #ddd;
+                line-height: 24px;
+                border-radius: 4px;
+                &:hover {
+                    background-color: #f8f9fa;
+                    color: #00a1e1;
+                }
+            }
+        }
+        .general-layers {
+            .ngx-dnd-container {
+                .ngx-dnd-item {
+                    margin: 0;
+                    padding: 0;
+                    background-color: rgba(0, 0, 0, 0);
+                    transition: opacity .4s ease-in-out;
+                    border: 0;
+                    display: block;
+                    border-radius: 0;
+                    .mat-expansion-panel {
+                        .mat-expansion-panel-header {
+                            padding: 13px 24px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .right_sidebar {
+        right: 0;
+        left: auto;
+        width: 300px;
+    }
+    .main_canvas {
+        position: absolute;
+        top: 0;
+        left: 250px;
+        right: 300px;
+        bottom: 0;
+        .ngx-dnd-container {
+            background-color: transparent;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            margin: 0;
+            border: 1px dashed #ccc;
+            overflow: auto;
+            border-radius: 7px;
+            .ngx-dnd-item {
+                max-width: 350px;
+                background-color: transparent;
+                position: relative;
+                margin: 15px auto;
+                padding: 0;
+                transition: opacity .4s ease-in-out;
+                display: block;
+                border: 0;
+                .ngx-layer {
+                    padding: 7px 40px;
+                    border: 1px solid #bbb;
+                    border-radius: 7px;
+                    text-align: center;
+                    background-color: #ffffff;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    &.active {
+                        border-color: #00a1e1;
+                        background-color: #dcedff;
+                        color: #00a1e1;
+                        .mdi {
+                            color: #00a1e1 !important;
+                        }
+                    }
+                    .layer-locked {
+                        position: absolute;
+                        top: 9px;
+                        right: 10px;
+                        opacity: 0.75;
+                        z-index: 9;
+                    }
+                }
+            } // .ngx-dnd-item:before {
+            //     width: 0;
+            //     height: 0;
+            //     border-left: 10px solid transparent;
+            //     border-right: 10px solid transparent;
+            //     border-top: 10px solid #00a1e1;
+            //     content: '';
+            //     position: absolute;
+            //     top: -11px;
+            //     left: 50%;
+            //     margin-left: -10px;
+            // }
+            // .ngx-dnd-item:after {
+            //     content: "";
+            //     width: 0;
+            //     height: 28px;
+            //     border: 1px solid #00a1e1;
+            //     position: absolute;
+            //     top: -32px;
+            //     left: 50%;
+            //     margin-left: -1px;
+            // }
+            .ngx-dnd-container {
+                position: static;
+                min-height: 100px;
+                padding: 0 15px;
+            }
+        }
+        &.no_right_sidebar {
+            right: 0;
+        }
+        .ngx-section {
+            display: block;
+            margin-bottom: 0;
+            background: #fff;
+            border: 1px solid #bbb;
+            text-align: center;
+            border-radius: 7px;
+            overflow: hidden;
+            .ngx-section-header {
+                background-color: #fff;
+                color: rgba(0, 0, 0, 0.87);
+                h1 {
+                    font-weight: 400;
+                    font-size: 1rem;
+                    line-height: 40px;
+                    margin: 0;
+                    padding: 0 40px;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+                .ngx-section-toggle {
+                    position: absolute;
+                    left: 1px;
+                    top: 1px;
+                    span {
+                        display: inline-block;
+                        line-height: 40px;
+                        width: 20px;
+                        color: rgba(0, 0, 0, 0.54);
+                    }
+                    .icon-arrow-down::after {
+                        border-style: solid;
+                        border-width: 0 2px 2px 0;
+                        content: '';
+                        display: inline-block;
+                        padding: 3px;
+                        -webkit-transform: rotate(45deg);
+                        transform: rotate(45deg);
+                        vertical-align: middle;
+                        margin-top: -3px;
+                    }
+                    .icon-arrow-right::after {
+                        border-style: solid;
+                        border-width: 0 2px 2px 0;
+                        content: '';
+                        display: inline-block;
+                        padding: 3px;
+                        -webkit-transform: rotate(-45deg);
+                        transform: rotate(-45deg);
+                        vertical-align: middle;
+                        margin-top: -3px;
+                    }
+                }
+            }
+            .ngx-section-content {
+                padding: 10px !important;
+                border-top: 1px solid #ddd;
+            }
+        }
+    }
+}
+
+.ngx-dnd-item.gu-mirror,
+.ngx-dnd-item.gu-transit {
+    background-color: #dcedff;
+    border: 1px dashed #bbb !important;
+    border-radius: 7px;
+    text-align: center;
+    padding: 7px 15px;
+    .mat-expansion-panel {
+        box-shadow: none !important;
+        background-color: transparent !important;
+        .mat-expansion-panel-header {
+            padding: 7px 0;
+            background-color: transparent !important;
+        }
+    }
+}

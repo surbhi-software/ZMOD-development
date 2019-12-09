@@ -1,0 +1,20 @@
+.filterPanel {
+    width: 300px;
+    background: #fff;
+    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-left: 1px solid #ddd;
+    z-index: 999;
+    .details-list {
+        overflow: auto;
+        position: absolute;
+        top: 116px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+    }
+}

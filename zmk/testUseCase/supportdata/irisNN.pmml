@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" version="4.3Ext">
+    <Header copyright="Copyright (c) 2018 Software AG" description="Neural Network Model">
+        <Extension value="{'dataUrl': './testUseCase/supportdata/iris_new.csv', 'scriptOutput': 'NA'}">
+            
+        </Extension>
+        <Timestamp>2019-02-06 15:22:59.563427</Timestamp>
+    </Header>
+    <DataDictionary numberOfFields="2">
+        <DataField name="dataSet" optype="categorical" dataType="string"/>
+        <DataField name="predictions" optype="categorical" dataType="string">
+            <Value value="setosa"/>
+            <Value value="versicolor"/>
+            <Value value="virginica"/>
+        </DataField>
+    </DataDictionary>
+    <DeepNetwork modelName="TrainedModel" functionName="classification" numberOfLayers="3">
+        <MiningSchema>
+            <MiningField name="dataSet" usageType="active" invalidValueTreatment="asIs"/>
+            <MiningField name="predictions" usageType="target" invalidValueTreatment="asIs"/>
+        </MiningSchema>
+        <Output>
+            <OutputField name="predictedValue_predictions" optype="categorical" dataType="string" feature="predictedValue"/>
+            <OutputField name="top1_prob" dataType="double" feature="probability"/>
+            <OutputField name="top5_prob" optype="categorical" dataType="string" feature="topCategories" numTopCategories="5"/>
+        </Output>
+        <NetworkLayer layerType="Input" layerId="1" connectionLayerId="na" inputFieldName="dataSet">
+            <LayerParameters inputDimension="(4, 1)" outputDimension="(4, 1)" trainable="true"/>
+        </NetworkLayer>
+        <NetworkLayer layerType="Dense" layerId="2" connectionLayerId="1">
+            <LayerParameters activationFunction="rectifier" inputDimension="(4, 1)" outputDimension="(50, 1)" trainable="true" units="50"/>
+            <LayerWeights weightsShape="(4, 50)" weightsFlattenAxis="0">
+				data:float32;base64,QGViPViOnT0TpJs+1OOwPSDfnL6oAk+9CxBzvouAKb5bUVi+ZzRRPdto+71ilpE++sQ3PTDgN766EXm+y+mkPtcU0j2GpGS+luqhvtZGpL7VDAY97lfdvZBXAj8w8gK+8uHcvV/Xg77iwiA9AHtlPeA3iz1wNgq+myMlPnao6Tz4YI49E8isPcU/0r7q8BM+p0W9Poorbz1trbk+pAjzPu2V8z4zw4m+DQwAvPrtrr1e7G49sBQJPhteCr7AaOw9e89/vqAyIDyLrga+emUePyl3+T5b3R2+gb6dPhibLD2ACEW+RtQrviAvrr3M4MC+zgvjvRFDTD1igkG+1XaEPpwQi70o3fg+/83OPgCrZ7yTn4m+EKCivn5iJj2r58g7mSSUPpaeQr7mNkU9KzkSvZJf7Du7/qO+GONOvZ7Cnr6FPMU+2TzNvuAenbxAEAo/hppiPWZL/D4hS5Y+7/gAvrgp2b2yiuM+L68EPlDEGr5UFyK/zXIGPrBeRb7Gf5G+sKwrvvaUYL6AIha+aI9xPRsRWr4tDse+48IGvjs6qr7g8SS+i0xyvqyO4L0gia29pgEOPiUxNT8QrSo+MqmsPiAQLj8QVyO+RhwrP0qxOr6fLUS+1OC8PSw8vb0AKJi78VpOvtT19j46awe/wGKNuxRVcD06+j0/x2HjvYAQ6zwrb1++5m8jPghSdb2BbwI+Hp62vsxcpD0wBkA+CvsTv31PIr6yuCE/uBivPtskbL5Y/Qi/CilsPiEt5D40qZO+xL6hvgPsm75okQe9e/oyvvaIXD44MYa+K6wpvmVRNb5LbCO/6HwqvbXAlT573zW+YPccvDtkgL4A9IQ8Zs+2Pngdvb5s56A9MOtFP8DbHj0jc0g/pSz+vp8BBL+AiGI92DUovUJ3Xj7YpSu+17ALP9WxM79A/Au9RCQLvt2iGT9cOca+1oIOvhNrlb4WeVK+M5okv447Kj+FiM+91W2zvj86ib2s60i+L5kWv8DMuj7Kq+Y+Xqkkv7LxG72SPTM+p6v1PoxWYT6uVO699JOEPYaeGb6s54i9ALKxOywtv70=
+            </LayerWeights>
+            <LayerBias biasShape="(50, 1)" biasFlattenAxis="0">
+				data:float32;base64,AAAAAAmf0z5Petg+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIbacvrDKzL1IemM+A5VAvgAAAAAIyPi+jVraPlhXyT4AAAAAAAAAAAAAAAAqgxi+xQinvh4Yzz4AAAAAp8vMvTG9dL6oAQu+AAAAAAAAAAAAAAAAs8DIPmOVrr7Ousy9HTzLPtHAzL3o6qs+ZCjPPgs1vr6+MVk+o4fTPjOI4D4AAAAAm6sHv4XLzL2dy8y9AAAAAAAAAAAAAAAAAAAAAAAAAAA=
+            </LayerBias>
+        </NetworkLayer>
+        <NetworkLayer layerType="Dense" layerId="3" connectionLayerId="2">
+            <LayerParameters activationFunction="softmax" inputDimension="(50, 1)" outputDimension="(3, 1)" trainable="true" units="3"/>
+            <LayerWeights weightsShape="(50, 3)" weightsFlattenAxis="0">
+				data:float32;base64,HHervoY3Uz6qN18+yhsyP0e3dLxiqRW/V0QoP1IDpz7Sq/i+/pC3vTQ9mb6A99c8CKGavTQ9Fj7bKAS+rth/vqi6mL4zCIE+Gsu8vS7GFb6UY0m+reWnPukoo75wX7k8WNfqPepl3b2GsOO9W6OIviW6GD7Q0jc/dBWaPFhUQz50HRM99Q8Dv1+XjD7RjLg9/64uv2WFHT5Ibhs/bggkPt+1lz4Qmee8yhomvwFqBb9ZDRw/dis/PsXxgr3N/Se/GBo+P76fNT2wMS6/ToZtPjpg773cs/K9n9eGPuh7nb4kkoO+OP6dvUrxbD6omGG9XkVCvvexjL7DdFA8yS+BvidQDr6a1t8+3cBJP02xpj78zM++0I3aPQQ71j0qXcm9jv0jvX9QbD5B2FY+S8YmvxQarL4ILz0/rFQvvn7KVz1ZnQ8+ku6XvlYDfz6Ga0W+KRmkPn0fDL5S7mi+hsfovWLDaT6WNIi+w6kbP2kfAz5buAe/bDEQv/FgUb9Hvd8+k5TRPRTfkT2x0K2+g/zfPjwmAD7i1Ja+kEwwvG6vUr6+EQK+jM0EPynBJ7/C1Jq+LQ/oPkT7Ej+wnUO/o6QKv6KsBD7pOMI+BVsZv+0cqj6hO1Q+EQAtP9z9mT6oC8W+ah8UPyPkmD5KxSm/EOfKvAllkj6Liqo+61TZvnNmKr8vzhg/WopHvrla/T0nFzy++3YjvntHyj2C7Se9SSipPl7oIb4rDaI+OfqXPhCxlT02DWO+4IxwvBfzB76ISIw9b3k6vsEumj6fKhS+SpwzPmXaI75iXv29
+            </LayerWeights>
+            <LayerBias biasShape="(3, 1)" biasFlattenAxis="0">
+				data:float32;base64,lLB1Ppjdmz71a+K+
+            </LayerBias>
+        </NetworkLayer>
+    </DeepNetwork>
+</PMML>

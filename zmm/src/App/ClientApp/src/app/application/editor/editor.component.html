@@ -1,0 +1,197 @@
+<div id="zme" class="zme_editor">
+  <header></header>
+  <aside id="palette" class="left_sidebar">
+
+    <ngx-dnd-container class="general-layers" [model]="sideBarGeneralItems" [copy]="true"
+      [dropZones]="['oneway-target']">
+      <ng-template let-item="model">
+        <div class="mat-expansion-panel mat-elevation-z1">
+          <div class="mat-expansion-panel-header">
+            <span class="mr-2 text-secondary" [ngClass]="item.icon"></span> {{item.name}}
+          </div>
+        </div>
+      </ng-template>
+    </ngx-dnd-container>
+
+    <mat-accordion [displayMode]="'FLAT'">
+      <mat-expansion-panel *ngFor="let sidbarItem of sideBarItems; first as isFirst" [expanded]="isFirst"
+        class="mat-elevation-z1">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="mr-2 text-secondary" [ngClass]="sidbarItem?.icon"></span> {{ sidbarItem.layerGroup }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ngx-dnd-container [model]="sidbarItem.layers" [copy]="true" [dropZones]="['oneway-target']">
+          <ng-template let-item="model">
+            {{item.name}}
+          </ng-template>
+        </ngx-dnd-container>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </aside>
+  <aside id="property_window" class="right_sidebar" *ngIf="selectedLayer?.id">
+    <mat-toolbar>
+      <h2>Layer:
+        <span [innerHtml]="(selectedLayer?.itemType!=='LAYER') ? selectedLayer?.name : selectedLayer?.layerId"></span>
+      </h2>
+      <div class="toolbar-mid"></div>
+      <div class="content-toolbar" hidden>
+        <button mat-icon-button [matTooltip]="'Close'">
+          <span class="mdi mdi-close text-secondary"></span>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div class="alert alert-danger mx-4 mt-4 mb-0" *ngIf="layerError">
+      {{layerError}}
+    </div>
+    <div class="p-4">
+      <mat-slide-toggle *ngIf="selectedLayer?.itemType==='LAYER'" class="mb-3" [(ngModel)]="!selectedLayer.trainable"
+        [checked]="!selectedLayer.trainable" (change)="onPropertyUpdate()" [labelPosition]="'before'">Layer Locked
+      </mat-slide-toggle>
+      <ng-template [ngIf]="selectedLayer?.itemType!=='LAYER'">
+        <mat-form-field class="w-100">
+          <input matInput placeholder="File Name"
+            [value]="!selectedLayer.url ? 'Click to select '+ selectedLayer.itemType : selectedLayer.layerId" readonly
+            (click)="selectData()">
+          <mat-icon matSuffix (click)="selectData()" [matTooltip]="'Browse ' + selectedLayer.itemType">open_in_browser
+          </mat-icon>
+        </mat-form-field>
+        <ng-template [ngIf]="selectedLayer?.itemType==='CODE'">
+          <mat-form-field class="w-100">
+            <mat-select [(value)]="selectedLayer.taskType" [placeholder]="'Task Type'"
+              (selectionChange)="onPropertyUpdate()">
+              <mat-option [value]="'preprocessing'">PRE PROCESSING</mat-option>
+              <mat-option [value]="'postprocessing'">POST PROCESSING</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <mat-select [(value)]="selectedLayer.scriptOutput" [placeholder]="'Script Output'"
+              (selectionChange)="onPropertyUpdate()">
+              <mat-option [value]="'DATA'">DATA</mat-option>
+              <mat-option [value]="'IMAGE'">IMAGE</mat-option>
+              <mat-option [value]="'NONE'">NONE</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <mat-select [(value)]="selectedLayer.scriptPurpose" [placeholder]="'Script Purpose'"
+              (selectionChange)="onPropertyUpdate()">
+              <mat-option [value]="'train'">TRAIN</mat-option>
+              <mat-option [value]="'score'">SCORE</mat-option>
+              <mat-option [value]="'trainAndscore'">TRAIN & SCORE</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-template>
+        <ng-template [ngIf]="selectedLayer?.itemType==='MODEL'">
+          <mat-form-field class="w-100">
+            <mat-select [(value)]="selectedLayer.taskType" [placeholder]="'Task Type'"
+              (selectionChange)="onPropertyUpdate()">
+              <mat-option [value]="'train'">TRAIN</mat-option>
+              <mat-option [value]="'score'">SCORE</mat-option>
+              <mat-option [value]="'trainAndscore'">TRAIN & SCORE</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-template>
+      </ng-template>
+      <ng-template ngFor let-field [ngForOf]="selectedLayer?.properties" let-i="index">
+        <mat-form-field *ngIf="!field?.options?.length" class="w-100">
+          <input matInput [placeholder]="field.label" [(ngModel)]="field.value" (blur)="onPropertyUpdate()"
+            [disabled]="field.id === 'outputDimension' || (selectedLayer.layerType !== 'Input' && field.id === 'inputDimension')"
+            type="{{ (field.dataType === 'integer' || field.dataType === 'float') ? 'number' : 'text' }}">
+          <mat-hint>{{field?.hint}}</mat-hint>
+        </mat-form-field>
+        <mat-form-field *ngIf="field?.options?.length > 0" class="w-100">
+          <mat-select [(value)]="field.value" [placeholder]="field.label" (selectionChange)="onPropertyUpdate()">
+            <mat-option *ngFor="let option of field.options" [value]="option">{{option}}</mat-option>
+          </mat-select>
+          <mat-hint>{{field?.hint}}</mat-hint>
+        </mat-form-field>
+      </ng-template>
+    </div>
+  </aside>
+  <app-filter-panel *ngIf="showFilter" [option]="filterConfig" (selected)="onFilterDataSelection($event)"
+    (close)="showFilter = false;"></app-filter-panel>
+  <main id="canvas" class="main_canvas" [ngClass]="{'no_right_sidebar': ! (selectedLayer?.id || showFilter) }">
+    <ngx-dnd-container class="root-container" [model]="targetItems" dropZone="oneway-target" [removeOnSpill]="true"
+      (drag)="log($event)" (drop)="onLayerDrop($event)" (over)="log($event)" (out)="log($event)"
+      (remove)="onLayerRemove($event)">
+
+      <ng-template let-model="model" let-template="template">
+        <div [ngSwitch]="model.itemType">
+          <div *ngSwitchCase="'FOLDING'">
+            <div class="ngx-section">
+              <header class="ngx-section-header ngx-section-collapsible">
+                <button mat-icon-button class="ngx-section-toggle"
+                  [matTooltip]="!model.sectionCollapse ? 'Collapse' : 'Expand'" type="button"
+                  (click)="toggleLayerSection(model)">
+                  <span class="icon-arrow-down"
+                    [ngClass]="{'icon-arrow-down': !model.sectionCollapse, 'icon-arrow-right': model.sectionCollapse }"></span>
+                </button>
+                <h1>{{model.layerId}}</h1>
+              </header>
+              <div class="ngx-section-content" *ngIf="!model.sectionCollapse">
+                <ngx-dnd-container dropZone="oneway-target" [model]="model.children" [removeOnSpill]="true"
+                  [template]="template" [droppableItemClass]="droppableItemClass" (drag)="log($event)"
+                  (drop)="onLayerDrop($event, model)" (over)="log($event)" (out)="log($event)"
+                  (remove)="onLayerRemove($event)" (cancel)="log($event)">
+                  <div class="ngx-layer" (click)="selectLayer(model)"
+                    [ngClass]="{'active': (model.layerId === selectedLayer.layerId)}">
+                    <span class="mr-2 text-secondary" [ngClass]="model?.icon"></span> {{model.layerId}}
+                    <span *ngIf="!model.trainable" class="mdi mdi-lock-outline layer-locked"></span>
+                  </div>
+                </ngx-dnd-container>
+              </div>
+            </div>
+          </div>
+          <div *ngSwitchDefault>
+            <div class="ngx-layer" (click)="selectLayer(model)"
+              [ngClass]="{'active': (model.layerId === selectedLayer.layerId)}">
+              <span class="mr-2 text-secondary" [ngClass]="model?.icon"></span> {{model.layerId}}
+              <span *ngIf="!model.trainable" class="mdi mdi-lock-outline layer-locked"></span>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngx-dnd-container>
+    <div class="ngx-dnd-container d-none" ngxDroppable="oneway-target" [model]="targetItems" [removeOnSpill]="true"
+      (drag)="log($event)" (drop)="onLayerDrop($event)" (over)="log($event)" (out)="log($event)"
+      (remove)="onLayerRemove($event)">
+      <div class="ngx-dnd-item" ngxDraggable [model]="item" *ngFor="let item of targetItems"
+        [moves]="item.itemType !== 'DATA'">
+        <div *ngIf="item.itemType !== 'FOLDING'" class="ngx-layer" (click)="selectLayer(item)"
+          [ngClass]="{'active': (item.layerId === selectedLayer.layerId)}">
+          <span class="mr-2 text-secondary" [ngClass]="item?.icon"></span> {{item.layerId}}
+          <span *ngIf="!item.trainable" class="mdi mdi-lock-outline layer-locked"></span>
+        </div>
+        <div *ngIf="item.itemType === 'FOLDING'">
+          <div class="ngx-section">
+            <header class="ngx-section-header ngx-section-collapsible">
+              <button mat-icon-button class="ngx-section-toggle"
+                [matTooltip]="!item.sectionCollapse ? 'Collapse' : 'Expand'" type="button"
+                (click)="toggleLayerSection(item)">
+                <span class="icon-arrow-down"
+                  [ngClass]="{'icon-arrow-down': !item.sectionCollapse, 'icon-arrow-right': item.sectionCollapse }"></span>
+              </button>
+              <h1>{{item.layerId}}</h1>
+            </header>
+            <div class="ngx-section-content" *ngIf="!item.sectionCollapse">
+              <div class="ngx-dnd-container" ngxDroppable="oneway-target" [model]="item.children" [removeOnSpill]="true"
+                (drag)="log($event)" (drop)="onLayerDrop($event, item)" (over)="log($event)" (out)="log($event)"
+                (remove)="onLayerRemove($event)">
+
+                <div class="ngx-dnd-item" ngxDraggable [model]="nestedItem" *ngFor="let nestedItem of item.children">
+                  <div *ngIf="nestedItem.itemType === 'LAYER'" class="ngx-layer" (click)="selectLayer(nestedItem)"
+                    [ngClass]="{'active': (nestedItem.layerId === selectedLayer.layerId)}">
+                    <span class="mr-2 text-secondary" [ngClass]="nestedItem?.icon"></span> {{nestedItem.layerId}}
+                    <span *ngIf="!nestedItem.trainable" class="mdi mdi-lock-outline layer-locked"></span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <app-loader [isLoading]="isLoading" [cssClass]="'loader-top-0'"></app-loader>
+</div>

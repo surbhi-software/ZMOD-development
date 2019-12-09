@@ -1,0 +1,18 @@
+version: '2.1'
+
+services:
+  zmm:
+    volumes: 
+      - ./bin/Debug/netcoreapp2.2/publish/:/app/zmm
+      - ./ZMOD/:/app/ZMOD
+    image: zmm
+    build: .
+    ports:
+      - 5000:5000
+      - 5001:5001
+      - 8888:8888
+      - 8889:8889
+      - 8890:8890
+      - 6006:6006
+      - 6007:6007
+      - 6008:6008

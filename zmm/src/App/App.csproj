@@ -1,0 +1,97 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <IsWindows Condition="'$(OS)' == 'Windows_NT'">true</IsWindows>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(MSBuildRuntimeType)' == 'Core'">
+    <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
+    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
+  </PropertyGroup>  
+  <PropertyGroup>
+  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  <OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
+  <NoWarn>$(NoWarn);1591</NoWarn>
+</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+    <BuildServerSideRenderer>false</BuildServerSideRenderer>
+    <ProjectUISubcaption>ZMM (ASP.NET Core 3.0)</ProjectUISubcaption>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Proxy" Version="0.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc3" />
+    <PackageReference Include="Quartz" Version="3.0.7" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.0.0-rc3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.0.0-rc3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="$(SpaRoot)**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\Helpers\Helpers.csproj" />
+    <ProjectReference Include="..\DirScan\DirScan.csproj" />
+    <ProjectReference Include="..\JNB\JNB.csproj" />
+    <ProjectReference Include="..\TB\TB.csproj" />
+    <ProjectReference Include="..\..\lib\Microsoft.AspNetCore.Proxy\Microsoft.AspNetCore.Proxy.csproj" />
+  </ItemGroup>
+  <Target Name="ResolveToolDependenciesForUbuntu" BeforeTargets="Build" Condition=" '$(IsLinux)' == 'true'">
+    <Message Text="Resolving Tool dependecies (ubuntu)" Importance="high" />
+    <Exec Command="cp -r ../JNB/config $(OutputPath)" />
+    <Exec Command="cp -r ../JNB/config ." />
+    <Exec Command="cp -r ../Tasks/tools $(OutputPath)" />
+    <Exec Command="cp -r ../Tasks/tools ." />
+  </Target>
+  <Target Name="ResolveToolDependenciesForWindow" BeforeTargets="Build" Condition=" '$(IsWindows)' == 'true'">
+    <Message Text="Resolving Tool dependecies (windows)" Importance="high" />
+    <Exec Command="xcopy ..\JNB\config $(OutputPath)\config\ /K /D /H /Y" />
+    <Exec Command="xcopy ..\JNB\config config\ /K /D /H /Y" />
+    <Exec Command="xcopy ..\Tasks\tools $(OutputPath)\tools\ /K /D /H /Y" />
+    <Exec Command="xcopy ..\Tasks\tools tools\ /K /D /H /Y" />
+  </Target>
+  <Target Name="ResolveToolDependenciesPublishForUbuntu" BeforeTargets="Publish" Condition=" '$(IsLinux)' == 'true'">
+    <Message Text="Resolving Tool dependecies (ubuntu) for Publish" Importance="high" />
+    <Exec Command="cp -r ../JNB/config $(PublishDir)" />
+    <Exec Command="cp -r ../JNB/config ." />
+  </Target>
+  <Target Name="ResolveToolDependenciesPublishForWindow" BeforeTargets="Publish" Condition=" '$(IsWindows)' == 'true'">
+    <Message Text="Resolving Tool dependecies (windows) for Publish" Importance="high" />
+    <Exec Command="xcopy ..\JNB\config $(PublishDir)\config\ /K /D /H /Y" />
+    <Exec Command="xcopy ..\JNB\config config\ /K /D /H /Y" />
+  </Target>
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' ">
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn" />
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'yarn'. This may take several minutes..." />
+  </Target>
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn build:prod" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+    <ItemGroup>
+      <DistFiles Include="wwwroot\**; $(SpaRoot)dist-server\**" />
+      <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+  <Target Name="ResolvePublishFolder" AfterTargets="Publish">
+    <Message Text="Resolving folder for publish" />
+    <MakeDir Directories="$(PublishDir)Logs" Condition="!Exists('$(PublishDir)Logs')" />
+    <WriteLinesToFile File="$(PublishDir)Logs\.log" Lines="Generated file" Overwrite="True" Condition="!Exists('$(PublishDir)Logs\.log')" />
+  </Target>
+</Project>

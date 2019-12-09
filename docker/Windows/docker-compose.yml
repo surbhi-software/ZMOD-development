@@ -1,0 +1,63 @@
+version: '3.5'
+
+services:
+
+   nginx:
+     image: store/softwareag/zementis-modeler-nginx:1.38.2
+     container_name: nginx_zmod
+     ports:
+       - "80:80"
+     networks:
+      test:
+    
+     cap_add:
+       - NET_ADMIN
+       - SYS_ADMIN
+       - ALL
+
+     restart: always
+
+
+   zmm:
+    image: store/softwareag/zementis-modeler-zmm:1.38.2
+    container_name: zmm
+    command: /bin/bash -c "dotnet App.dll --environment=Production && alias nyoka=""/publish/nyokacli/client/bin/release/netcoreapp2.1/linux-x64/nyoka"""
+    working_dir: /publish
+    volumes:
+      - shared-content:/ZMOD
+      - ./Code:/ZMOD/Code
+      - ./Data:/ZMOD/Data
+      - ./Models:/ZMOD/Models 
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    expose:
+       - "5000"
+       - "8888"
+       - "8889"
+       - "8890"
+       - "6006"
+       - "6007"
+       - "6008"
+       - "8000"
+       - "8001"
+       - "8002"
+
+
+    restart: always
+
+    networks:
+      test:
+        ipv4_address: '172.20.0.3'
+
+
+networks:
+  test:
+    name: global-zmod-net
+    ipam:
+      driver: default
+      config:
+       - subnet: 172.20.0.0/24
+volumes:
+  shared-content:
+
+

@@ -1,0 +1,74 @@
+<mat-sidenav-container class="page-container">
+  <mat-sidenav #sidenav mode="side" opened class="content-sidenav" [fixedInViewport]="false" [fixedTopGap]="0" [fixedBottomGap]="0">
+    <mat-toolbar>
+      <div class="toolbar-mid">
+        <div class="filter">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <span class="mdi mdi-magnify"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control" placeholder="Filter">
+          </div>
+        </div>
+      </div>
+      <div class="content-toolbar">
+        <button mat-icon-button matTooltip="Create new user">
+          <span class="mdi mdi-account-plus-outline  text-secondary"></span>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div class="details-list">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item list-group-item-action text-truncate active" (click)="sidenav.open()">
+          zgallifont0@fc2.com
+        </li>
+        <li class="list-group-item list-group-item-action text-truncate" (click)="sidenav.open()">
+          toguz1@woothemes.com
+        </li>
+        <li class="list-group-item list-group-item-action text-truncate" (click)="sidenav.open()">
+          mmallender2@bizjournals.com
+        </li>
+        <li class="list-group-item list-group-item-action text-truncate" (click)="sidenav.open()">
+          mjohantges3@techcrunch.com
+        </li>
+        <li class="list-group-item list-group-item-action text-truncate" (click)="sidenav.open()">
+          adacke4@gmpg.org
+        </li>
+        <li class="list-group-item list-group-item-action text-truncate" (click)="sidenav.open()">
+          mmussotti5@last.fm
+        </li>
+        <li class="list-group-item list-group-item-action text-truncate" (click)="sidenav.open()">
+          ebartod6@mlb.com
+        </li>
+        <li class="list-group-item list-group-item-action text-truncate" (click)="sidenav.open()">
+          tacott7@scientificamerican.com
+        </li>
+      </ul>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content class="content-main">
+    <mat-toolbar class="mb-3">
+      <div></div>
+      <div class="toolbar-mid"></div>
+      <div calss="content-toolbar">
+        <button mat-icon-button (click)="sidenav.toggle() ; toggleSidebar(sidenav.opened ? 'FULLSCREEN' : 'FULLSCREEN_EXIT')" [matTooltip]="sidenav.opened ? 'Fullscreen' : 'Fullscreen Exit'">
+          <span class="mdi text-secondary" [ngClass]="{'mdi-fullscreen': sidenav.opened, 'mdi-fullscreen-exit': !sidenav.opened}"></span>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div class="container-fluid">
+      <h5 class="mb-4">zgallifont0@fc2.com</h5>
+      <dl class="row">
+
+        <dt class="col-sm-3">Roles</dt>
+        <dd class="col-sm-9">Admin</dd>
+
+        <dt class="col-sm-3 text-truncate">Created At</dt>
+        <dd class="col-sm-9">11 jul 2018</dd>
+      </dl>
+    </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

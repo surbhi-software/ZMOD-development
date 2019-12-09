@@ -1,0 +1,460 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Zementis Modeler",
+        "description": "Swagger for ZMOD",
+        "version": "0.0.8"
+    },
+    "host": "localhost:8000",
+    "schemes": [
+        "http"
+    ],
+    "basePath": "/api/v1",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "Basic": {
+            "type": "basic"
+        }
+    },
+    "security": [
+        {
+            "Basic": []
+        }
+    ],
+    "paths": {
+        "/downloadFile": {
+            "get": {
+                "operationId": "downloadFile",
+                "description": "Download a file by providing the filePath.",
+                "parameters": [
+                    {
+                        "name":"filePath",
+                        "in":"query",
+                        "required":true,
+                        "description":"Path of a file.",
+                        "type":"string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the file."
+                    }
+                },
+                "tags": [
+                    "Utility"
+                ]
+            },
+            "parameters": []
+        },
+        "/listOfLayers": {
+            "get": {
+                "operationId": "listOfLayers",
+                "description": "Get the list of layers supported by ZMOD.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Retuens a list of layers."
+                    }
+                },
+                "tags": [
+                    "Utility"
+                ]
+            },
+            "parameters": []
+        },
+        "/models": {
+            "get": {
+                "operationId": "models_list",
+                "description": "Get the list of loaded models.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Returns a list of models."
+                    }
+                },
+                "tags": [
+                    "Model"
+                ]
+            },
+            "post": {
+                "operationId": "models_post",
+                "description": "Loads a model into memory.",
+                "parameters": [
+                    {
+                        "name":"filePath",
+                        "in":"formData",
+                        "required":true,
+                        "description":"Path of the file.",
+                        "type":"string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns a json response."
+                    }
+                },
+                "tags": [
+                    "Model"
+                ]
+            },
+            "parameters": []
+        },
+        "/models/{modelName}": {
+            "delete": {
+                "operationId": "models_delete",
+                "description": "Deletes a loaded model.",
+                "parameters": [
+                    {
+                        "name":"modelName",
+                        "in":"path",
+                        "required":true,
+                        "description":"Key to the model",
+                        "type":"string"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Model"
+                ]
+            },
+            "parameters": []
+        },
+        "/models/{modelName}/score": {
+            "get": {
+                "operationId": "models_score_list",
+                "description": "Prediction of single record data.",
+                "parameters": [
+                    {
+                        "name":"modelName",
+                        "in":"path",
+                        "required":true,
+                        "description":"Key to the model",
+                        "type":"string"
+                    },
+                    {
+                        "name":"jsonRecord",
+                        "in":"query",
+                        "required":true,
+                        "description":"The record in json format.\nExample: {\"sepal_length\":5,\"sepal_width\":4,\"petal_length\":4,\"petal_width\":5}",
+                        "type":"string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Model"
+                ]
+            },
+            "post": {
+                "operationId": "models_score_create",
+                "description": "Prediction of multiple record data.",
+                "parameters": [
+                    {
+                        "name":"modelName",
+                        "in":"path",
+                        "required":true,
+                        "description":"Key to the model",
+                        "type":"string"
+                    },
+                    {
+                        "name":"filePath",
+                        "in":"formData",
+                        "required":true,
+                        "description":"Path of the data file to be predicted.",
+                        "type":"string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Model"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "modelName",
+                    "in": "path",
+                    "required": true,
+                    "type": "string",
+                    "description":"Key to the model"
+                }
+            ]
+        },
+        "/pmml": {
+            "get": {
+                "operationId": "pmml_list",
+                "description": "Get the details of a PMML.",
+                "parameters": [
+                    {
+                        "name":"filePath",
+                        "in":"query",
+                        "required":true,
+                        "type":"string",
+                        "description":"Path of the PMML file."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "PMML"
+                ]
+            },
+            "parameters": []
+        },
+        "/pmml/getGlobal/memory": {
+            "get": {
+                "operationId": "pmml_getGlobal_memory_list",
+                "description": "Returns all available models (PMMLs) in JSON format.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "PMML"
+                ]
+            },
+            "parameters": []
+        },
+        "/pmml/{projectID}": {
+            "post": {
+                "operationId": "pmml_create",
+                "description": "Adds the PMML to the global memory as JSON.",
+                "parameters": [
+                    {
+                        "name":"projectID",
+                        "in":"path",
+                        "required":true,
+                        "type":"string",
+                        "description":"Create an unique project Id for that PMML"
+                    },
+                    {
+                        "name":"filePath",
+                        "in":"formData",
+                        "required":true,
+                        "type":"string",
+                        "description":"Path of the PMML file."
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "PMML"
+                ]
+            },
+            "parameters": []
+        },
+        "/pmml/{projectID}/layer": {
+            "put": {
+                "operationId": "pmml_layer_update",
+                "description": "For Modifying a DeepNetwork PMML. Adds or updates a layer/section/template.",
+                "parameters": [
+                    {
+                        "name": "projectID",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description":"Project id for the PMML model"
+                    },
+                    {
+                        "name":"layerToUpdate",
+                        "in":"body",
+                        "required":true,
+                        "type":"string",
+                        "description":"The JSON payload of the layer/section/template to be added/update"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "PMML"
+                ]
+            },
+            "delete": {
+                "operationId": "pmml_layer_delete",
+                "description": "Deletes a layer/section from the PMML model",
+                "parameters": [
+                    {
+                        "name": "projectID",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description":"Project id for the PMML model"
+                    },
+                    {
+                        "name":"layerDelete",
+                        "in":"body",
+                        "required":true,
+                        "type":"string",
+                        "description":"The JSON payload of the layer/section to be deleted."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "PMML"
+                ]
+            },
+            "parameters": []
+        },
+        "/runningTasks": {
+            "get": {
+                "operationId": "runningTasks_list",
+                "description": "Get the list of running tasks.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Running Tasks"
+                ]
+            },
+            "parameters": []
+        },
+        "/runningTasks/{id_for_task}": {
+            "get": {
+                "operationId": "runningTasks_read",
+                "description": "Get the status of a running task.",
+                "parameters": [
+                    {
+                        "name": "id_for_task",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description":"Id for the task"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Running Tasks"
+                ]
+            },
+            "delete": {
+                "operationId": "runningTasks_delete",
+                "description": "Delete a running task.",
+                "parameters": [
+                    {
+                        "name": "id_for_task",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description":"Id for the task"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Running Tasks"
+                ]
+            },
+            "parameters": []
+        },
+        "/trainAutoMLModel": {
+            "get": {
+                "operationId": "trainAutoMLModel_list",
+                "description": "Uploads data for AutoML.",
+                "parameters": [
+                    {
+                        "name":"filePath",
+                        "in":"query",
+                        "required":true,
+                        "type":"string",
+                        "description":"Path of the file."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Train"
+                ]
+            },
+            "post": {
+                "operationId": "trainAutoMLModel_create",
+                "description": "For a given dataset, generates a model using AutoML",
+                "parameters": [
+                    {
+                        "name":"payload",
+                        "in":"body",
+                        "required":true,
+                        "type":"string",
+                        "description":"Payload for training of AutoML. (Pass the JSON payload)"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Train"
+                ]
+            },
+            "parameters": []
+        },
+        "/trainNNModel": {
+            "post": {
+                "operationId": "trainNNModel_create",
+                "description": "Trains a DeepNetwork model.",
+                "parameters": [
+                    {
+                        "name":"payload",
+                        "in":"body",
+                        "required":true,
+                        "type":"string",
+                        "description":"Payload for training of DeepNetwork Model. (Pass the JSON payload)"   
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Train"
+                ]
+            },
+            "parameters": []
+        }
+    },
+    "definitions": {}
+}

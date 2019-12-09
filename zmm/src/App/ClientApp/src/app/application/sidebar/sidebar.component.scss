@@ -1,0 +1,39 @@
+@import '../../../variables';
+
+.left-sidebar {
+    width: 100%;
+    transition: height 0.25s ease-in-out;
+    header {
+        h1 {
+        color: #fff;
+        font-size: 1.585rem;
+        text-align: center;
+        font-weight: bold;
+      }
+      p {
+        font-size: 16px;
+        text-align: center;
+        color: #fff;
+      }
+    }
+    .nav-link {
+        padding: 10px;
+        border-left: 4px solid transparent;
+        line-height: 29px;
+        color: $white;
+        display: flex;
+        align-items: flex-end;
+        .mdi {
+            margin-right: 15px;
+            margin-left: 5px;
+        }
+        &:hover {
+            opacity: 0.9;
+        }
+        &.active {
+            background-color: #14629f;
+            color: $white;
+            border-left: 4px solid $white;
+        }
+    }
+}

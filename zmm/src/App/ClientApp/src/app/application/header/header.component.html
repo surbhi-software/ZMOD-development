@@ -1,0 +1,42 @@
+<mat-toolbar class="application-header bg-white">
+  <div class="application-brand d-flex align-items-center">
+    <button mat-icon-button (click)="navOpen()" class="mr-1">
+      <span class="mdi "
+        [ngClass]="{'mdi-chevron-double-left': isNavOpen, 'mdi-chevron-double-right': !isNavOpen }"></span>
+    </button>
+    <div class="logo">
+      <h3 class="text-capitalize"><img *ngIf="!isNavOpen" alt="" src="assets/logo-aw.png" width="40" class="pb-1 pr-2">
+        {{ title }}</h3>
+    </div>
+  </div>
+  <span class="toolbar-mid"></span>
+  <div class="header-nav">
+    <div class="login-media">
+      <img *ngIf="userInfo.mode === 2" alt="" src="/assets/github.svg">
+      <img *ngIf="userInfo.mode === 1" alt="" src="/assets/stackoverflow.svg">
+      <span *ngIf="userInfo.mode === 0" class="logo">
+        <h3>SAG Cloud</h3>
+      </span>
+    </div>
+    <button mat-icon-button matTooltip="Apps" [matMenuTriggerFor]="appsMenu" (click)="updateUrl()">
+      <span class="mdi mdi-apps"></span>
+    </button>
+    <mat-menu #appsMenu="matMenu" xPosition="before">
+      <button mat-menu-item (click)="goToUrl(urlCockpit)">
+        <img alt="" src="/assets/cockpit.png" width="34" height="34" class="mr-2" /> Cockpit
+      </button>
+      <button mat-menu-item (click)="goToUrl(urlDeviceManagment)">
+        <img alt="" src="/assets/devices.png" width="34" height="34" class="mr-2" /> Device Management
+      </button>
+    </mat-menu>
+    <button mat-icon-button disabled>
+      <span class="mdi mdi-account-circle"></span>
+      <span class="avatar">
+        <img alt="" *ngIf="userInfo.gravtarUrl" [src]="userInfo.gravtarUrl">
+      </span>
+    </button>
+    <button mat-icon-button (click)="logout()" matTooltip="Logout">
+      <span class="mdi mdi-power mr-2"></span>
+    </button>
+  </div>
+</mat-toolbar>

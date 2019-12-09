@@ -1,0 +1,83 @@
+<mat-toolbar>
+  <div class="page-heading">
+    Data
+  </div>
+  <span class="toolbar-mid"></span>
+  <div class="page-nav">
+    <!-- <button mat-button [matMenuTriggerFor]="welcomeMenu">
+      Welcome, John Deo
+      
+    </button> -->
+  </div>
+</mat-toolbar>
+<mat-sidenav-container class="page-container">
+  <mat-sidenav-content class="application-sidenav">
+    <div class="details-list">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item list-group-item-action" (click)="sidenav.open()">
+          <span class="mdi mdi-folder  text-secondary mr-2 align-middle"></span>
+          Cras justo odio
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="sidenav.open()">
+          <span class="mdi mdi-folder  text-secondary mr-2 align-middle"></span>
+          Dapibus ac facilisis in
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="sidenav.open()">
+          <span class="mdi mdi-folder  mr-2 text-secondary"></span>
+          Morbi leo risus
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="sidenav.open()">
+          <span class="mdi mdi-json  mr-2 text-secondary"></span>
+          Porta ac consectetur ac
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="sidenav.open()">
+          <span class="mdi mdi-image  mr-2 text-secondary"></span>
+          Vestibulum at eros
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="sidenav.open()">
+          <span class="mdi mdi-image  mr-2 text-secondary"></span>
+          Porta ac consectetur ac
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="sidenav.open()">
+          <span class="mdi mdi-image  mr-2 text-secondary"></span>
+          Vestibulum at eros
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="sidenav.open()">
+          <span class="mdi mdi-file  mr-2 text-secondary"></span>
+          Porta ac consectetur ac
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="sidenav.open()">
+          <span class="mdi mdi-file  mr-2 text-secondary"></span>
+          Vestibulum at eros
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="sidenav.open()">
+          <span class="mdi mdi-file  mr-2 text-secondary"></span>
+          Porta ac consectetur ac
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="sidenav.open()">
+          <span class="mdi mdi-file-excel  mr-2 text-secondary"></span>
+          Vestibulum at eros
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="sidenav.open()">
+          <span class="mdi mdi-file-excel  mr-2 text-secondary"></span>
+          Vestibulum at eros Vestibulum at eros
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="sidenav.open()">
+          <span class="mdi mdi-file-excel  mr-2 text-secondary"></span>
+          Vestibulum at eros
+        </li>
+      </ul>
+    </div>
+  </mat-sidenav-content>
+  <mat-sidenav #sidenav mode="side" position="end" class="application-sidenav-right" [fixedInViewport]="false" [fixedTopGap]="0"
+    [fixedBottomGap]="0">
+    <div class="details-info">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="text-muted">Selected Data Info</h5>
+        <button mat-icon-button (click)="sidenav.close()">
+          <span class="mdi mdi-close"></span>
+        </button>
+      </div>
+    </div>
+  </mat-sidenav>
+</mat-sidenav-container>

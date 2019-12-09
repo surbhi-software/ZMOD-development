@@ -1,0 +1,27 @@
+<div class="formPanel">
+    <mat-toolbar>
+      <div class="toolbar-mid">
+        Compile Parameters
+      </div>
+      <div class="content-toolbar">
+        <button mat-icon-button matTooltip="Cancel" (click)="closeForm()">
+          <span class="mdi mdi-close text-secondary"></span>
+        </button>
+        <button mat-icon-button matTooltip="Submit" (click)="submit()">
+          <span class="mdi mdi-check text-secondary"></span>
+        </button>
+      </div>
+    </mat-toolbar>
+    <app-loader [isLoading]="isLoading" [message]=""></app-loader>
+    <div class="details-list">
+      <form class="p-3" #compileForm="ngForm">
+        <mat-form-field class="w-100">
+          <input matInput [(ngModel)]="formData.repeat" placeholder="Repeat time" name="repeat" type="number" required>
+          <mat-error>required</mat-error>
+        </mat-form-field>
+        <div class="alert alert-warning " *ngIf="showCompileError" >
+          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+            Error Occured
+        </div>
+      </form>
+    </div>

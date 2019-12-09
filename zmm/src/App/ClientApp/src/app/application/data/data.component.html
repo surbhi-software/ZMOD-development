@@ -1,0 +1,303 @@
+<mat-sidenav-container class="page-container">
+  <mat-sidenav #sidenav mode="side" opened class="content-sidenav" [fixedInViewport]="false" [fixedTopGap]="0"
+    [fixedBottomGap]="0">
+    <mat-toolbar>
+      <div class="toolbar-mid">
+        <div class="filter">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <span class="mdi mdi-magnify"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="filter" placeholder="Filter">
+          </div>
+        </div>
+      </div>
+      <div class="content-toolbar">
+        <button mat-icon-button matTooltip="Refresh" (click)="refresh()">
+          <span class="mdi mdi-refresh text-secondary"></span>
+        </button>
+        <!-- <button mat-icon-button matTooltip="New Data" [matMenuTriggerFor]="newDataMenu">
+          <span class="mdi mdi-file-plus text-secondary"></span>
+        </button>
+        <mat-menu #newDataMenu="matMenu">
+          <button mat-menu-item (click)="newWeldingData()">
+            Generate Welding Images
+          </button>
+        </mat-menu> -->
+        <button mat-icon-button matTooltip="Upload Data from Cumulocity" (click)="uploadNewCumulocityData()">
+          <span class="mdi mdi-file-upload text-secondary"></span>
+        </button>
+        <button mat-icon-button matTooltip="Upload Data" (click)="uploadNewFiles()">
+          <span class="mdi mdi-cloud-upload text-secondary"></span>
+        </button>
+      </div>
+    </mat-toolbar>
+    <app-loader [isLoading]="isLoading"></app-loader>
+    <cdk-virtual-scroll-viewport itemSize="51" class="details-list">
+      <ul class="list-group list-group-flush">
+        <li *cdkVirtualFor="let item of listOfData | searchfilter:'name':filter"
+          [ngClass]="{'active': (item.id === selectedData.id)}"
+          class="list-group-item list-group-item-action text-truncate" (click)="sidenav.open();viewData(item)">
+          <div class="text-truncate">
+            <span class="mdi mr-2" [ngClass]="utilService.fileTypeIcon(item.type)"></span>
+            <span innerHtml="{{ item.name | highlight: filter }}"></span>
+          </div>
+          <div class="text-muted">
+            <small>Created: {{ item.created_on | date: 'dd MMM yy, hh:mm a' }}</small>
+          </div>
+        </li>
+        <li *ngIf="!(listOfData && listOfData.length) && !isLoading"
+          class="list-group-item text-truncate text-center text-muted">
+          No data available
+        </li>
+      </ul>
+    </cdk-virtual-scroll-viewport>
+
+  </mat-sidenav>
+  <mat-sidenav-content class="content-main" [@.disabled]="true">
+    <app-loader [isLoading]="isContentLoading"></app-loader>
+    <mat-tab-group class="noTabsHeader" [(selectedIndex)]="tabSelectedIndex" [dynamicHeight]="true">
+
+      <mat-tab label="INFO">
+        <ng-template matTabContent>
+          <div *ngIf="selectedData.id && tabSelectedIndex === 0">
+            <mat-toolbar>
+              <h2>
+                <span #name contenteditable="true" (blur)="updateName(name)">{{ selectedData?.id }}</span>
+                <span *ngIf="selectedData?.extension">.{{ selectedData?.extension }}</span>
+              </h2>
+              <div class="toolbar-mid"></div>
+              <div class="content-toolbar">
+                <button *ngIf="selectedData.type == 'CSV' || selectedData.type == 'JSON'" mat-icon-button matTooltip="New AutoML"
+                  (click)="newAutoML()">
+                  <span class="mdi mdi-file-plus text-secondary"></span>
+                </button>
+                <button mat-icon-button matTooltip="Predict Data" [matMenuTriggerFor]="newPredictDataMenu">
+                  <span class="mdi mdi-file-chart text-secondary"></span>
+                </button>
+                <mat-menu #newPredictDataMenu="matMenu">
+                  <button mat-menu-item (click)="predictData('ZMK')">
+                    Zementis Modeler
+                  </button>
+                  <button mat-menu-item (click)="predictData('ZS')">
+                    Zementis Server
+                  </button>
+                </mat-menu>
+
+                <button mat-icon-button matTooltip="Preview" (click)="previewData()">
+                  <span class="mdi mdi-eye-outline text-secondary"></span>
+                </button>
+
+                <button mat-icon-button matTooltip="Download" (click)="dowloadData()">
+                  <span class="mdi mdi-download text-secondary"></span>
+                </button>
+
+                <app-confirmationbar [message]="message" (confirmDelete)="deleteData()"></app-confirmationbar>
+
+                <button mat-icon-button
+                  (click)="sidenav.toggle(); toggleSidebar(sidenav.opened ? 'FULLSCREEN' : 'FULLSCREEN_EXIT')"
+                  [matTooltip]="sidenav.opened ? 'Fullscreen' : 'Fullscreen Exit'">
+                  <span class="mdi text-secondary"
+                    [ngClass]="{'mdi-fullscreen': sidenav.opened, 'mdi-fullscreen-exit': !sidenav.opened}"></span>
+                </button>
+              </div>
+            </mat-toolbar>
+            <div class="details">
+              <div class="container-fluid py-3">
+                <dl class="row">
+                  <ng-template ngFor let-prop [ngForOf]="selectedData?.properties" let-i="index">
+                    <dt class="col-sm-3 text-truncate text-capitalize">{{ prop.key }}</dt>
+                    <dd class="col-sm-9">{{ prop.value }}</dd>
+                  </ng-template>
+                  <dt class="col-sm-3 text-truncate">File Size</dt>
+                  <dd class="col-sm-9">{{ selectedData.size | fileSize }}</dd>
+                  <dt class="col-sm-3 text-truncate">Uploaded On</dt>
+                  <dd class="col-sm-9">{{ selectedData.created_on | date: 'dd MMM yy, hh:mm a' }}</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <mat-tab label="DROPZONE">
+        <ng-template matTabContent>
+          <div *ngIf="uploadFiles && tabSelectedIndex === 1">
+            <mat-toolbar>
+              <h2>Upload Files</h2>
+              <div class="toolbar-mid"></div>
+              <div calss="content-toolbar">
+                <button *ngIf="(listOfData && listOfData.length) && !isLoading" mat-icon-button matTooltip="Cancel"
+                  (click)="uploadFilesDone()">
+                  <span class="mdi mdi-close text-secondary"></span>
+                </button>
+                <button mat-icon-button
+                  (click)="sidenav.toggle(); toggleSidebar(sidenav.opened ? 'FULLSCREEN' : 'FULLSCREEN_EXIT')"
+                  [matTooltip]="sidenav.opened ? 'Fullscreen' : 'Fullscreen Exit'">
+                  <span class="mdi text-secondary"
+                    [ngClass]="{'mdi-fullscreen': sidenav.opened, 'mdi-fullscreen-exit': !sidenav.opened}"></span>
+                </button>
+              </div>
+            </mat-toolbar>
+            <div class="details">
+              <div class="container-fluid">
+                <app-dropzone [openFileBrowserWindow]="dropzoneConfig.openFileBrowser" [dropzoneConfig]="dropzoneConfig"
+                  (dropzoneSuccess)="onDataUploadSuccess($event)"></app-dropzone>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <mat-tab label="AUTOML">
+        <ng-template matTabContent>
+          <div *ngIf="!isContentLoading && tabSelectedIndex === 2">
+            <mat-toolbar>
+              <h2>Pre proccessing Step</h2>
+              <div class="toolbar-mid"></div>
+              <div calss="content-toolbar">
+                <button mat-icon-button matTooltip="Cencel" (click)="goToInfoTab()">
+                  <span class="mdi mdi-close"></span>
+                </button>
+                <button mat-icon-button
+                  (click)="sidenav.toggle(); toggleSidebar(sidenav.opened ? 'FULLSCREEN' : 'FULLSCREEN_EXIT')"
+                  [matTooltip]="sidenav.opened ? 'Fullscreen' : 'Fullscreen Exit'">
+                  <span class="mdi text-secondary"
+                    [ngClass]="{'mdi-fullscreen': sidenav.opened, 'mdi-fullscreen-exit': !sidenav.opened}"></span>
+                </button>
+              </div>
+            </mat-toolbar>
+            <div class="details">
+              <app-automl [dataSource]="automlFormData"></app-automl>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <mat-tab label="CUMULOCITY">
+        <ng-template matTabContent>
+          <div *ngIf="tabSelectedIndex === 3">
+            <mat-toolbar>
+              <h2>Connect to Cumulocity</h2>
+              <div class="toolbar-mid"></div>
+              <div calss="content-toolbar">
+                <button mat-icon-button matTooltip="Cencel" (click)="goToInfoTab()">
+                  <span class="mdi mdi-close"></span>
+                </button>
+                <button mat-icon-button
+                  (click)="sidenav.toggle(); toggleSidebar(sidenav.opened ? 'FULLSCREEN' : 'FULLSCREEN_EXIT')"
+                  [matTooltip]="sidenav.opened ? 'Fullscreen' : 'Fullscreen Exit'">
+                  <span class="mdi text-secondary"
+                    [ngClass]="{'mdi-fullscreen': sidenav.opened, 'mdi-fullscreen-exit': !sidenav.opened}"></span>
+                </button>
+              </div>
+            </mat-toolbar>
+            <div class="details">
+              <app-cumulocity (cumulocitySuccess)="onDataUploadSuccess($event)"></app-cumulocity>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <mat-tab label="DATA PREVIEW">
+        <ng-template matTabContent>
+          <div *ngIf="tabSelectedIndex === 4">
+            <mat-toolbar>
+              <h2><span #name contenteditable="true" (blur)="updateName(name)">{{ selectedData?.id }}</span>.{{
+                selectedData?.extension }}</h2>
+              <div class="toolbar-mid"></div>
+              <div calss="content-toolbar">
+                <button *ngIf="selectedData.type == 'CSV'" mat-icon-button matTooltip="New AutoML"
+                  (click)="newAutoML()">
+                  <span class="mdi mdi-file-plus text-secondary"></span>
+                </button>
+                <button mat-icon-button matTooltip="Predict Data" [matMenuTriggerFor]="newPredictDataMenu">
+                  <span class="mdi mdi-file-chart text-secondary"></span>
+                </button>
+                <mat-menu #newPredictDataMenu="matMenu">
+                  <button mat-menu-item (click)="predictData('ZMK')">
+                    Zementis Modeler
+                  </button>
+                  <button mat-menu-item (click)="predictData('ZS')">
+                    Zementis Server
+                  </button>
+                </mat-menu>
+
+                <button mat-icon-button matTooltip="Download" (click)="dowloadData()">
+                  <span class="mdi mdi-download text-secondary"></span>
+                </button>
+
+                <app-confirmationbar [message]="message" (confirmDelete)="deleteData()"></app-confirmationbar>
+
+                <button mat-icon-button
+                  (click)="sidenav.toggle(); toggleSidebar(sidenav.opened ? 'FULLSCREEN' : 'FULLSCREEN_EXIT')"
+                  [matTooltip]="sidenav.opened ? 'Fullscreen' : 'Fullscreen Exit'">
+                  <span class="mdi text-secondary"
+                    [ngClass]="{'mdi-fullscreen': sidenav.opened, 'mdi-fullscreen-exit': !sidenav.opened}"></span>
+                </button>
+                <button mat-icon-button matTooltip="Close" (click)="goToInfoTab()">
+                  <span class="mdi mdi-close text-secondary"></span>
+                </button>
+              </div>
+            </mat-toolbar>
+            <div class="details">
+              <table *ngIf="selectedData.type === 'CSV'" mat-table matSort [dataSource]="dataSource" class="w-100">
+                <ng-container *ngFor="let item of displayedColumns" [matColumnDef]="item">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> {{item}} </th>
+                  <td mat-cell *matCellDef="let row"> {{ row[item] }} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <mat-paginator [hidden]="!(selectedData.type === 'CSV' && !isContentLoading)" [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+              <ngx-monaco-editor *ngIf="selectedData.type === 'JSON'" class="app-code-editor" [options]="editorOptions"
+                [(ngModel)]="selectedData.jsonCode"></ngx-monaco-editor>
+              <img [src]="selectedData.url" class="img-fluid" *ngIf="selectedData.type === 'IMAGE'">
+              <div class="embed-responsive embed-responsive-16by9" *ngIf="selectedData.type === 'VIDEO'">
+                <video class="embed-responsive-item" controls autoplay>
+                  <source [src]="selectedData.url" type="video/mp4">
+                  Your browser does not support HTML5 video.
+                </video>
+              </div>
+
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <mat-tab label="Welding Images Preview">
+        <ng-template matTabContent>
+          <div *ngIf="tabSelectedIndex === 5">
+            <mat-toolbar>
+              <h2>Base Image Preview</h2>
+              <div class="toolbar-mid"></div>
+              <div calss="content-toolbar">
+                <button mat-icon-button matTooltip="Cencel" (click)="goToInfoTab()">
+                  <span class="mdi mdi-close"></span>
+                </button>
+                <button mat-icon-button
+                  (click)="sidenav.toggle(); toggleSidebar(sidenav.opened ? 'FULLSCREEN' : 'FULLSCREEN_EXIT')"
+                  [matTooltip]="sidenav.opened ? 'Fullscreen' : 'Fullscreen Exit'">
+                  <span class="mdi text-secondary"
+                    [ngClass]="{'mdi-fullscreen': sidenav.opened, 'mdi-fullscreen-exit': !sidenav.opened}"></span>
+                </button>
+              </div>
+            </mat-toolbar>
+            <div class="details details-offset-right">
+              <img [src]="baseImageInfo.url" class="img-fluid">
+              <app-welding-config-form [baseImageInfo]="baseImageInfo" (close)="goToInfoTab()"
+                (selected)="onWeldingConfigFormSubmit($event)"></app-welding-config-form>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+    </mat-tab-group>
+    <app-filter-panel [option]="filterConfig" *ngIf="showFilterPanel" (close)="showFilterPanel = false;"
+      (selected)="onFilteredItemSelection($event)"></app-filter-panel>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

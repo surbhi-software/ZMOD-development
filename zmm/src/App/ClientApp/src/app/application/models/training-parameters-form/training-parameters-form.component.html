@@ -1,0 +1,112 @@
+<div class="formPanel">
+  <mat-toolbar>
+    <div class="toolbar-mid">
+      Training Parameters
+    </div>
+    <div class="content-toolbar">
+      <button mat-icon-button matTooltip="Cancel" (click)="closeForm()">
+        <span class="mdi mdi-close text-secondary"></span>
+      </button>
+      <button mat-icon-button matTooltip="Submit" (click)="submit()">
+        <span class="mdi mdi-check text-secondary"></span>
+      </button>
+    </div>
+  </mat-toolbar>
+  <app-loader [isLoading]="isLoading" [message]=""></app-loader>
+  <div class="details-list">
+    <form class="p-3" #trainingForm="ngForm">
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="formData.recurrence" placeholder="Recurrence" name="Recurrence" required>
+          <mat-option value="ONE_TIME">One Time</mat-option>
+          <mat-option value="REPEAT">Repeat</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+      <ng-template [ngIf]="formData.recurrence === 'REPEAT'">
+        <mat-form-field class="w-50 pr-2">
+          <input matInput (click)="pickerDateFrom.open()" [(ngModel)]="formData.startDate"
+            [matDatepicker]="pickerDateFrom" placeholder="Start Date" name="startDate" readonly>
+          <mat-datepicker-toggle matSuffix [for]="pickerDateFrom"></mat-datepicker-toggle>
+          <mat-datepicker #pickerDateFrom></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="w-25 pr-1">
+          <input matInput [(ngModel)]="formData.startTimeH" placeholder="Hours" name="startTimeH" type="number">
+        </mat-form-field>
+        <mat-form-field class="w-25">
+          <input matInput [(ngModel)]="formData.startTimeM" placeholder="Minutes" name="startTimeM" type="number">
+        </mat-form-field>
+        <div class="container-fluid">
+          <cron-editor class="w-100  cron-editor" [(cron)]="formData.cronExpression" [disabled]="isCronDisabled"
+            [(options)]="cronOptions">
+          </cron-editor>
+        </div>
+        <div class="alert alert-info" role="alert">
+          Schedule: {{ formData.cronExpression | cronstrue }}
+        </div>
+      </ng-template>
+
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="formData.problemType" placeholder="Problem Type" name="problemType" required>
+          <mat-option *ngFor="let option of problemTypeOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <input matInput [(ngModel)]="formData.batchSize" placeholder="Batch Size" name="batchSize" type="number"
+          required>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <input matInput [(ngModel)]="formData.epoch" placeholder="Epoch" name="epoch" type="number" required>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <input matInput [(ngModel)]="formData.stepPerEpoch" placeholder="Steps Per Epoch" name="stepPerEpoch"
+          type="number" required>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <input matInput [(ngModel)]="formData.learningRate" placeholder="Learning Rate" name="learningRate"
+          type="number" required>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="formData.loss" placeholder="Loss" name="loss" required>
+          <mat-option *ngFor="let option of lossOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="formData.metrics" placeholder="Metrics" name="metrics" multiple required>
+          <mat-option *ngFor="let option of metricsOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="formData.optimizer" placeholder="Optimizer" name="optimizer" required>
+          <mat-option *ngFor="let option of optimizerOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <input matInput [(ngModel)]="formData.testSize" placeholder="Test Size" name="testSize" type="number" required>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="formData.scriptOutput" placeholder="Script Output" name="scriptOutput" required>
+          <mat-option *ngFor="let option of scriptOutputOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+        <mat-error>required</mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(MSBuildRuntimeType)' == 'Core'">
+    <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
+    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\JNB\JNB.csproj" />
+  </ItemGroup>  
+
+  <Target Name="ResolveToolDependenciesForUbuntu" BeforeTargets="Build" Condition=" '$(IsLinux)' == 'true'">    
+    <Message Text="Resolving Tool dependecies (ubuntu)" Importance="high" /> 
+    <Exec Command="cp -r ../../src/JNB/config $(OutputPath)" />     
+    <Exec Command="cp -r ../../src/JNB/config ." />  
+  </Target>
+
+  <Target Name="ResolveToolDependenciesForWindows" BeforeTargets="Build" Condition=" '$(IsWindows)' == 'true'">    
+    <Message Text="Resolving Tool dependecies (window)" Importance="high" /> 
+    <Exec Command="xcopy ..\..\src\JNB\config $(OutputPath)\config\ /K /D /H /Y" />
+    <Exec Command="xcopy ..\..\src\JNB\config config\ /K /D /H /Y" />
+  </Target>
+
+  <Target Name="CopyFiles" AfterTargets="build">
+    <Copy DestinationFolder="$(OutputPath)\ZMOD\testuser\data\HelloClass" SourceFiles="ZMOD\testuser\data\HelloClass\HelloClass.ipynb" />
+    <Copy DestinationFolder="$(OutputPath)\ZMOD\testuser\data\HelloClass" SourceFiles="ZMOD\testuser\data\HelloClass\HelloClass2.ipynb" />
+    <Copy DestinationFolder="$(OutputPath)\results" SourceFiles="results\README.md" />
+  </Target>
+
+</Project>

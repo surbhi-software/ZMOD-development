@@ -1,0 +1,5 @@
+
+<dropzone [config]="config" [message]="'Drop files here or click to upload'" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>
+<p class="text-muted mb-0">
+    <small [innerHTML]="dropzoneConfig?.acceptedFilesMsg"></small>
+</p>

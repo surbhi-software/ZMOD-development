@@ -1,0 +1,5 @@
+<mat-sidenav-container class="page-container">
+  <div class="details" *ngIf="nyokaRemote && nyokaRemote.url" >
+    <iframe [src]="nyokaRemote.url | safe:'resourceUrl'" class="iframe"></iframe>
+  </div>
+</mat-sidenav-container>

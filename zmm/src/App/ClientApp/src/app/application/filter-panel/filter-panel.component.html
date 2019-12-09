@@ -1,0 +1,42 @@
+<div class="filterPanel">
+  <mat-toolbar>
+    <div class="toolbar-mid">
+      Select Item
+    </div>
+    <div class="content-toolbar">
+      <button mat-icon-button matTooltip="Cancel" (click)="closeFilter()">
+        <span class="mdi mdi-close text-secondary"></span>
+      </button>
+      <button mat-icon-button matTooltip="Submit" (click)="submit()" [disabled]="!selectedData.id">
+        <span class="mdi mdi-check text-secondary"></span>
+      </button>
+    </div>
+  </mat-toolbar>
+  <mat-toolbar>
+    <div class="toolbar-mid">
+      <div class="filter">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <span class="mdi mdi-magnify"></span>
+            </span>
+          </div>
+          <input type="text" class="form-control" [(ngModel)]="filter" placeholder="Filter">
+        </div>
+      </div>
+    </div>
+  </mat-toolbar>
+  <app-loader [isLoading]="isLoading" [message]=""></app-loader>
+  <cdk-virtual-scroll-viewport itemSize="51" class="details-list">
+    <ul class="list-group list-group-flush">
+      <li *cdkVirtualFor="let item of data | searchfilter:'name':filter" [ngClass]="{'active': (item.id === selectedData.id)}" class="list-group-item list-group-item-action text-truncate"
+        (click)="selectData(item)">
+        <span class="mdi mr-2" [ngClass]="utilService.fileTypeIcon(item.type)"></span>
+        <span innerHtml="{{ item.name | highlight: filter }}"></span>
+      </li>
+      <li *ngIf="!(data && data.length) && !isLoading" class="list-group-item text-truncate text-center text-muted">
+        No data available
+      </li>
+    </ul>
+  </cdk-virtual-scroll-viewport>
+</div>

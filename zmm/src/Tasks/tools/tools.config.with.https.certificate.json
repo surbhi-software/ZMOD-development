@@ -1,0 +1,38 @@
+{
+  "JupyterNotebook": {
+    "Path": "jupyter-notebook",
+    "Param": "",
+    "Command.0.Name": "Start",
+    "Command.0.Value": "   --config=\"{NotebookConfigFile}\" --browser=no-browser --notebook-dir=\"{NotebookDir}\"  --NotebookApp.base_url=\"{LinkPrefix}\"  --port={Port}  --allow-root --certfile=\"{NotebookCertFile}\"  --keyfile=\"{NotebookKeyFile}\"",
+    "Command.1.Name": "List",
+    "Command.1.Value": "list --json",
+    "Command.2.Name": "Stop",
+    "Command.2.Value": "stop {Port}",
+    "Command.3.Name": "Kill",
+    "Command.3.Value": "kill {Pid}"
+  },
+  "TensorBoard": {
+    "Path": "tensorboard",
+    "Param": "",
+    "Command.0.Name": "Start",
+    "Command.0.Value": "  --logdir={TensorBoardDir}  --port {Port}",
+    "Command.1.Name": "Kill",
+    "Command.1.Value": "kill {Pid}"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+      "System": "Information",
+      "Microsoft": "Information"
+    },
+    "Console": {
+      "IncludeScopes": false,
+      "LogLevel": {
+        "Microsoft.AspNetCore.Mvc.Razor.Internal": "Warning",
+        "Microsoft.AspNetCore.Mvc.Razor.Razor": "Debug",
+        "Microsoft.AspNetCore.Mvc.Razor": "Error",
+        "Default": "Information"
+      }
+    }
+  }
+}

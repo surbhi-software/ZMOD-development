@@ -1,0 +1,13 @@
+<button mat-icon-button matTooltip="Delete" (click)="displayConfirmationbar = true">
+    <span class="mdi mdi-delete-outline text-secondary"></span>
+</button>
+<mat-toolbar *ngIf="displayConfirmationbar" class="mat-toolbar-fixed">
+  <h2>{{message}}</h2>
+  <div class="toolbar-mid"></div>
+  <button mat-icon-button matTooltip="Confirm Delete" (click)="deleteData($event)">
+    <span class="mdi mdi-check text-secondary"></span>
+  </button>
+  <button mat-icon-button matTooltip="Cancel Delete" (click)="displayConfirmationbar = false">
+    <span class="mdi mdi-close text-secondary"></span>
+  </button>
+</mat-toolbar>
